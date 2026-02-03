@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  fraud-detection-pipeline:
+    build: .
+    volumes:
+      - ./dataset:/app/dataset  # Mount dataset for input
+      - ./artifacts:/app/artifacts # Persist artifacts
+      - ./logs:/app/logs        # Persist logs
