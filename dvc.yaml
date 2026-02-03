@@ -1,0 +1,14 @@
+"""DVC pipeline definition"""
+stages:
+  data_ingestion:
+    cmd: python -c "from src.ingestion.pipeline import DataIngestionPipeline; pipeline = DataIngestionPipeline(); pipeline.run()"
+    deps:
+      - dataset/creditcard.csv
+      - src/ingestion/
+      - src/config/config.yaml
+    outs:
+      - data/validated/creditcard_validated.parquet:
+          cache: true
+    metrics:
+      - data/validated/profile.json:
+          cache: false

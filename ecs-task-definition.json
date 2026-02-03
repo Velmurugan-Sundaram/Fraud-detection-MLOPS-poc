@@ -1,0 +1,101 @@
+# AWS ECS Task Definition for Fraud Detection MLOps POC
+# This file can be deployed to AWS using: aws ecs register-task-definition --cli-input-json file://ecs-task-definition.json
+
+{
+  "family": "fraud-detection-mlops",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["EC2"],
+  "cpu": "1024",
+  "memory": "2048",
+  "containerDefinitions": [
+    {
+      "name": "fraud-detection-pipeline",
+      "image": "YOUR_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/fraud-detection-mlops:latest",
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 8000,
+          "hostPort": 8000,
+          "protocol": "tcp"
+        },
+        {
+          "containerPort": 9090,
+          "hostPort": 9090,
+          "protocol": "tcp"
+        }
+      ],
+      "environment": [
+        {
+          "name": "PYTHONUNBUFFERED",
+          "value": "1"
+        },
+        {
+          "name": "LOG_LEVEL",
+          "value": "INFO"
+        },
+        {
+          "name": "ENV",
+          "value": "production"
+        },
+        {
+          "name": "AWS_REGION",
+          "value": "us-east-1"
+        }
+      ],
+      "mountPoints": [
+        {
+          "sourceVolume": "fraud-detection-data",
+          "containerPath": "/app/data",
+          "readOnly": false
+        },
+        {
+          "sourceVolume": "fraud-detection-logs",
+          "containerPath": "/app/logs",
+          "readOnly": false
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/fraud-detection-mlops",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      },
+      "healthCheck": {
+        "command": [
+          "CMD-SHELL",
+          "python -c 'print(\"OK\")' || exit 1"
+        ],
+        "interval": 30,
+        "timeout": 5,
+        "retries": 3,
+        "startPeriod": 60
+      }
+    }
+  ],
+  "volumes": [
+    {
+      "name": "fraud-detection-data",
+      "host": {
+        "sourcePath": "/data/fraud-detection"
+      }
+    },
+    {
+      "name": "fraud-detection-logs",
+      "host": {
+        "sourcePath": "/logs/fraud-detection"
+      }
+    }
+  ],
+  "tags": [
+    {
+      "key": "Project",
+      "value": "FraudDetectionMLOps"
+    },
+    {
+      "key": "Environment",
+      "value": "production"
+    }
+  ]
+}
