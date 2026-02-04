@@ -21,6 +21,12 @@ jobs:
       # Step 1: Checkout code
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          lfs: true
+      
+      # Step 1b: Pull LFS Files
+      - name: Pull LFS Files
+        run: git lfs pull
       
       # Step 2: Set up Python environment
       - name: Set up Python ${{ env.PYTHON_VERSION }}
@@ -66,6 +72,12 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          lfs: true
+      
+      - name: Pull LFS Files
+        run: |
+          git lfs pull
       
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -126,6 +138,11 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          lfs: true
+      
+      - name: Pull LFS Files
+        run: git lfs pull
       
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -178,6 +195,11 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          lfs: true
+      
+      - name: Pull LFS Files
+        run: git lfs pull
       
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -251,6 +273,11 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          lfs: true
+      
+      - name: Pull LFS Files
+        run: git lfs pull
       
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -318,6 +345,11 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          lfs: true
+      
+      - name: Pull LFS Files
+        run: git lfs pull
       
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -407,6 +439,11 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          lfs: true
+      
+      - name: Pull LFS Files
+        run: git lfs pull
       
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -448,6 +485,11 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          lfs: true
+      
+      - name: Pull LFS Files
+        run: git lfs pull
       
       - name: Download All Artifacts
         uses: actions/download-artifact@v3
