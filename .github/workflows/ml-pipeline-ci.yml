@@ -59,7 +59,7 @@ jobs:
           pytest tests/test_ingestion.py -v --cov=src --cov-report=xml
       
       - name: Upload Coverage Reports
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
           files: ./coverage.xml
           flags: unittests
@@ -132,7 +132,7 @@ jobs:
         continue-on-error: false
       
       - name: Upload Validated Data
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: validated-data
           path: data/validated/
@@ -152,7 +152,7 @@ jobs:
         run: git lfs pull
       
       - name: Download Validated Data
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: validated-data
           path: data/validated/
@@ -215,7 +215,7 @@ jobs:
         run: git lfs pull
       
       - name: Download Validated Data
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: validated-data
           path: data/validated/
@@ -299,7 +299,7 @@ jobs:
         run: git lfs pull
       
       - name: Download Validated Data
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: validated-data
           path: data/validated/
@@ -357,7 +357,7 @@ jobs:
       
       # Upload model artifacts
       - name: Upload Model Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: trained-models
           path: models/
@@ -377,7 +377,7 @@ jobs:
         run: git lfs pull
       
       - name: Download Validated Data
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: validated-data
           path: data/validated/
@@ -398,7 +398,7 @@ jobs:
       
       # Download artifacts from previous step
       - name: Download Model Artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: trained-models
           path: models/
@@ -492,7 +492,7 @@ jobs:
         timeout-minutes: 15
       
       - name: Download Model Artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: trained-models
           path: models/
@@ -503,7 +503,7 @@ jobs:
           pytest tests/test_ml_pipeline.py -v --cov=src --cov-report=xml
       
       - name: Upload Test Results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: test-results
           path: coverage.xml
@@ -523,7 +523,7 @@ jobs:
         run: git lfs pull
       
       - name: Download All Artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
       
       - name: Generate CI Report
         run: |
@@ -552,7 +552,7 @@ jobs:
           cat ci_report.txt
       
       - name: Upload CI Report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ci-report
           path: ci_report.txt
