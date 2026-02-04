@@ -24,5 +24,10 @@ echo "-----------------------------------"
 python src/data_splitting.py
 
 echo "-----------------------------------"
+echo "Step 5: Model Training"
+echo "-----------------------------------"
+python src/model_training.py
+
+echo "-----------------------------------"
 echo "Pipeline Completed Successfully!"
 echo "-----------------------------------"
