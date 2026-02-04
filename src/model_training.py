@@ -65,6 +65,14 @@ def train_and_evaluate(X_train, y_train, X_test, y_test, models_dir, config):
                                    random_state=42, **lgbm_params)
     }
     
+    # Set MLflow Tracking URI
+    tracking_uri = os.getenv("MLFLOW_TRACKING_URI")
+    if tracking_uri:
+        mlflow.set_tracking_uri(tracking_uri)
+        logging.info(f"Using MLflow Tracking URI: {tracking_uri}")
+    else:
+        logging.info("Using local MLflow tracking.")
+
     mlflow.set_experiment(config['mlflow']['experiment_name'])
     
     logging.info(f"Training {len(models)} models...")

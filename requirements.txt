@@ -10,3 +10,4 @@ mlflow
 fastapi
 uvicorn
 pyyaml
+psycopg2-binary

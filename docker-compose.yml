@@ -7,3 +7,21 @@ services:
       - ./dataset:/app/dataset  # Mount dataset for input
       - ./artifacts:/app/artifacts # Persist artifacts
       - ./logs:/app/logs        # Persist logs
+    depends_on:
+      - mlflow-db
+    environment:
+      - MLFLOW_TRACKING_URI=postgresql://mlflow:mlflow@mlflow-db:5432/mlflow_db
+
+  mlflow-db:
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=mlflow
+      - POSTGRES_PASSWORD=mlflow
+      - POSTGRES_DB=mlflow_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - mlflow-db-data:/var/lib/postgresql/data
+
+volumes:
+  mlflow-db-data:
