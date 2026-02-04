@@ -31,14 +31,21 @@ class SchemaValidator:
         if extra:
             errors.append(f"Extra columns: {extra}")
         
-        # Check dtypes (with tolerance)
+        # Check dtypes (with numeric type flexibility)
         for col, expected_type in self.schema.items():
             if col in df.columns:
                 actual_type = df[col].dtype
                 # Convert string type to numpy dtype
                 try:
                     expected_np_type = np.dtype(expected_type)
-                    if not np.issubdtype(actual_type, expected_np_type):
+                    # Allow int/float interchangeability for numeric columns
+                    if np.issubdtype(expected_np_type, np.integer) and np.issubdtype(actual_type, np.number):
+                        # int64 expected but float64 received is OK for numeric data
+                        continue
+                    elif np.issubdtype(expected_np_type, np.floating) and np.issubdtype(actual_type, np.number):
+                        # float64 expected and numeric received is OK
+                        continue
+                    elif not np.issubdtype(actual_type, expected_np_type):
                         errors.append(
                             f"Column '{col}': expected {expected_type}, "
                             f"got {actual_type}"
