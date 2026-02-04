@@ -130,6 +130,13 @@ jobs:
           print(f'✅ Memory usage: {df.memory_usage(deep=True).sum() / 1024**2:.2f} MB')
           "
         continue-on-error: false
+      
+      - name: Upload Validated Data
+        uses: actions/upload-artifact@v3
+        with:
+          name: validated-data
+          path: data/validated/
+          retention-days: 1
 
   feature-engineering:
     needs: data-pipeline
@@ -143,6 +150,12 @@ jobs:
       
       - name: Pull LFS Files
         run: git lfs pull
+      
+      - name: Download Validated Data
+        uses: actions/download-artifact@v3
+        with:
+          name: validated-data
+          path: data/validated/
       
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -200,6 +213,12 @@ jobs:
       
       - name: Pull LFS Files
         run: git lfs pull
+      
+      - name: Download Validated Data
+        uses: actions/download-artifact@v3
+        with:
+          name: validated-data
+          path: data/validated/
       
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -279,6 +298,12 @@ jobs:
       - name: Pull LFS Files
         run: git lfs pull
       
+      - name: Download Validated Data
+        uses: actions/download-artifact@v3
+        with:
+          name: validated-data
+          path: data/validated/
+      
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
@@ -350,6 +375,12 @@ jobs:
       
       - name: Pull LFS Files
         run: git lfs pull
+      
+      - name: Download Validated Data
+        uses: actions/download-artifact@v3
+        with:
+          name: validated-data
+          path: data/validated/
       
       - name: Set up Python
         uses: actions/setup-python@v4
