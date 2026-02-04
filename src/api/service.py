@@ -13,10 +13,10 @@ import numpy as np
 import uvicorn
 
 from src.features.engineering import FeatureEngineer
-from src.utils.logger import setup_logger
+from src.utils.logger import setup_logging
 
 # Setup logging
-logger = setup_logger(__name__)
+logger = setup_logging()
 
 
 # Pydantic models for request/response
