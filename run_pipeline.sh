@@ -14,5 +14,10 @@ echo "-----------------------------------"
 python src/data_validation.py
 
 echo "-----------------------------------"
+echo "Step 3: Feature Engineering"
+echo "-----------------------------------"
+python src/feature_engineering.py
+
+echo "-----------------------------------"
 echo "Pipeline Completed Successfully!"
 echo "-----------------------------------"
