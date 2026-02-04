@@ -5,7 +5,7 @@ pyarrow==14.0.1
 
 # Data Quality & Validation
 great-expectations==0.18.10
-pandas-profiler==3.6.6
+pandas-profiling==3.6.6
 evidentlyai==0.4.20
 
 # Data Versioning
