@@ -27,6 +27,19 @@ class ModelComparator:
         self.mlflow_config = config.get('mlflow', {})
         self.comparison_results = None
         
+        # Setup MLFlow - use local file-based backend for CI/CD
+        mlflow_uri = self.mlflow_config.get('tracking_uri', 'file:./mlruns')
+        if mlflow_uri.startswith('http'):
+            # For CI/CD environments, fall back to local backend
+            mlflow_uri = 'file:./mlruns'
+        
+        mlflow.set_tracking_uri(mlflow_uri)
+        experiment_name = self.mlflow_config.get('experiment_name', 'fraud_detection_v1')
+        try:
+            mlflow.set_experiment(experiment_name)
+        except Exception as e:
+            logger.warning(f"⚠️  MLFlow setup warning: {e}")
+        
     def compare_models(self, metrics: Dict[str, Dict[str, float]]) -> pd.DataFrame:
         """Compare models based on multiple metrics
         
@@ -107,6 +120,11 @@ class ModelComparator:
         Returns:
             List of ranked models with details
         """
+        if not metrics:
+            logger.error("❌ No metrics provided to get_model_rankings()")
+            logger.error(f"   Metrics type: {type(metrics)}, Value: {metrics}")
+            raise ValueError("No metrics provided - models may not have trained successfully")
+        
         rankings = []
         
         # Calculate composite score (weighted average)

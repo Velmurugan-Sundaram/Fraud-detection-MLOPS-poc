@@ -11,7 +11,7 @@ on:
 
 env:
   PYTHON_VERSION: '3.10'
-  MLFLOW_TRACKING_URI: http://localhost:5000
+  MLFLOW_TRACKING_URI: file:./mlruns
 
 jobs:
   setup-and-test:
@@ -352,8 +352,32 @@ jobs:
           
           print('✅ Model Training Completed')
           print(f'✅ Models trained: {list(results[\"models\"].keys())}')
+          print(f'✅ Metrics saved: {list(trainer.metrics.keys())}')
+          print(f'✅ Metrics content sample:')
+          for model_name in list(trainer.metrics.keys())[:1]:
+              print(f'   {model_name}: {trainer.metrics[model_name]}')
           "
         continue-on-error: false
+      
+      # Verify models were saved
+      - name: Verify Model Artifacts
+        run: |
+          echo "Checking if models were saved..."
+          python -c "
+          import json
+          import os
+          
+          if not os.path.exists('models/metrics.json'):
+              print('❌ ERROR: models/metrics.json not found!')
+              exit(1)
+          
+          with open('models/metrics.json', 'r') as f:
+              metrics = json.load(f)
+          
+          print(f'✅ Found metrics.json with {len(metrics)} models')
+          for model_name, model_metrics in metrics.items():
+              print(f'   ✅ {model_name}: {list(model_metrics.keys())}')
+          "
       
       # Upload model artifacts
       - name: Upload Model Artifacts
@@ -403,6 +427,35 @@ jobs:
           name: trained-models
           path: models/
       
+      # Validate metrics before comparison
+      - name: Validate Metrics
+        run: |
+          python -c "
+          import json
+          import os
+          
+          metrics_file = 'models/metrics.json'
+          
+          if not os.path.exists(metrics_file):
+              print('❌ ERROR: metrics.json not found!')
+              print('📂 Contents of models/ directory:')
+              os.system('ls -la models/')
+              exit(1)
+          
+          with open(metrics_file, 'r') as f:
+              metrics = json.load(f)
+          
+          if not metrics:
+              print('❌ ERROR: metrics.json is empty!')
+              print(f'   Content: {metrics}')
+              exit(1)
+          
+          print(f'✅ Metrics found for {len(metrics)} models:')
+          for model_name, model_metrics in metrics.items():
+              print(f'   - {model_name}: {len(model_metrics)} metrics')
+          print('✅ Metrics validation passed')
+          "
+      
       # Step 6: Model Comparison & Selection
       - name: "STEP 6: Model Comparison & Selection (Best Model Selection)"
         run: |
@@ -412,31 +465,53 @@ jobs:
           python -c "
           import json
           import logging
+          import sys
           from src.models.comparison import ModelComparator
           import yaml
           
           logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+          logger = logging.getLogger(__name__)
           
-          with open('src/config/config.yaml', 'r') as f:
-              config = yaml.safe_load(f)
-          
-          # Load metrics
-          with open('models/metrics.json', 'r') as f:
-              metrics = json.load(f)
-          
-          comparator = ModelComparator(config)
-          
-          # Get rankings
-          rankings = comparator.get_model_rankings(metrics)
-          
-          # Get best model
-          best_model_info = comparator.get_best_model_info(rankings)
-          print(f'🏆 Best Model: {best_model_info[\"name\"]}')
-          print(f'📊 Composite Score: {best_model_info[\"composite_score\"]:.4f}')
-          
-          # Save comparison report
-          comparator.save_comparison_report('models/model_comparison_report.json')
-          print('✅ Model comparison report saved')
+          try:
+              with open('src/config/config.yaml', 'r') as f:
+                  config = yaml.safe_load(f)
+              
+              # Load and validate metrics
+              with open('models/metrics.json', 'r') as f:
+                  metrics = json.load(f)
+              
+              if not metrics:
+                  logger.error('❌ Metrics dictionary is empty!')
+                  logger.error(f'   Raw content: {metrics}')
+                  sys.exit(1)
+              
+              logger.info(f'✅ Loaded metrics for {len(metrics)} models')
+              
+              comparator = ModelComparator(config)
+              
+              # Get rankings (this will validate metrics)
+              try:
+                  rankings = comparator.get_model_rankings(metrics)
+                  logger.info(f'✅ Generated rankings for {len(rankings)} models')
+              except Exception as e:
+                  logger.error(f'❌ Failed to generate rankings: {e}')
+                  logger.error(f'   Metrics content: {metrics}')
+                  sys.exit(1)
+              
+              # Get best model
+              best_model_info = comparator.get_best_model_info(rankings)
+              print(f'🏆 Best Model: {best_model_info[\"name\"]}')
+              print(f'📊 Composite Score: {best_model_info[\"composite_score\"]:.4f}')
+              
+              # Save comparison report
+              comparator.save_comparison_report('models/model_comparison_report.json')
+              print('✅ Model comparison report saved')
+              
+          except Exception as e:
+              logger.error(f'❌ Model comparison failed: {e}')
+              import traceback
+              logger.error(traceback.format_exc())
+              sys.exit(1)
           "
         continue-on-error: false
       

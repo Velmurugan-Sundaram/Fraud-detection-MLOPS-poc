@@ -39,8 +39,12 @@ class ModelTrainer:
         self.models = {}
         self.metrics = {}
         
-        # Setup MLFlow
-        mlflow_uri = self.mlflow_config.get('tracking_uri', 'http://127.0.0.1:5000')
+        # Setup MLFlow - use local file-based backend for CI/CD
+        mlflow_uri = self.mlflow_config.get('tracking_uri', 'file:./mlruns')
+        if mlflow_uri.startswith('http'):
+            # For CI/CD environments, fall back to local backend
+            mlflow_uri = 'file:./mlruns'
+        
         mlflow.set_tracking_uri(mlflow_uri)
         self.experiment_name = self.mlflow_config.get('experiment_name', 'fraud_detection_v1')
         

@@ -91,7 +91,7 @@ model:
 
 # MLFlow Configuration
 mlflow:
-  tracking_uri: "http://127.0.0.1:5000"
+  tracking_uri: "file:./mlruns"
   experiment_name: "fraud_detection_v1"
   model_registry_path: "models/mlflow"
   
