@@ -33,9 +33,10 @@ jobs:
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install --no-cache-dir -r requirements.txt
+          pip install --upgrade setuptools wheel
+          pip install -r requirements.txt -v
         continue-on-error: false
-        timeout-minutes: 10
+        timeout-minutes: 15
       
       # Step 4: Lint code
       - name: Lint with pylint
@@ -74,8 +75,10 @@ jobs:
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install --upgrade setuptools wheel
+          pip install -r requirements.txt -v
         continue-on-error: false
+        timeout-minutes: 15
       
       # Step 1: Data Ingestion
       - name: "STEP 1: Data Ingestion"
@@ -132,7 +135,10 @@ jobs:
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install --upgrade setuptools wheel
+          pip install -r requirements.txt -v
+        continue-on-error: false
+        timeout-minutes: 15
       
       # Step 3: Feature Engineering
       - name: "STEP 3: Feature Engineering"
@@ -181,7 +187,10 @@ jobs:
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install --upgrade setuptools wheel
+          pip install -r requirements.txt -v
+        continue-on-error: false
+        timeout-minutes: 15
       
       # Step 4: Feature Consistency Checks
       - name: "STEP 4: Feature Consistency Checks (Parity Verified)"
@@ -251,7 +260,10 @@ jobs:
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install --upgrade setuptools wheel
+          pip install -r requirements.txt -v
+        continue-on-error: false
+        timeout-minutes: 15
       
       # Step 5: Model Training with MLFlow (Model v1)
       - name: "STEP 5: Model Training with MLFlow (Model v1 Registration)"
@@ -315,7 +327,10 @@ jobs:
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install --upgrade setuptools wheel
+          pip install -r requirements.txt -v
+        continue-on-error: false
+        timeout-minutes: 15
       
       # Download artifacts from previous step
       - name: Download Model Artifacts
@@ -401,8 +416,11 @@ jobs:
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install --upgrade setuptools wheel
+          pip install -r requirements.txt -v
           pip install pytest pytest-cov
+        continue-on-error: false
+        timeout-minutes: 15
       
       - name: Download Model Artifacts
         uses: actions/download-artifact@v3
