@@ -3,3 +3,4 @@ numpy
 great_expectations
 scikit-learn
 joblib
+boto3

@@ -19,5 +19,10 @@ echo "-----------------------------------"
 python src/feature_engineering.py
 
 echo "-----------------------------------"
+echo "Step 4: Data Splitting"
+echo "-----------------------------------"
+python src/data_splitting.py
+
+echo "-----------------------------------"
 echo "Pipeline Completed Successfully!"
 echo "-----------------------------------"
