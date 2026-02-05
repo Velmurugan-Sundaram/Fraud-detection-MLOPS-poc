@@ -25,6 +25,9 @@ jobs:
       # Step 1b: Download dataset (alternative to LFS)
       - name: Download Dataset
         run: |
+          # Create dataset directory if it doesn't exist
+          mkdir -p dataset
+          
           # Check if dataset exists (from LFS or local)
           if [ -f "dataset/creditcard.csv" ]; then
             echo "Dataset found locally: $(ls -lh dataset/creditcard.csv)"
