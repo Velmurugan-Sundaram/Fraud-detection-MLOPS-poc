@@ -368,7 +368,7 @@ jobs:
           import os
           
           if not os.path.exists('models/metrics.json'):
-              print('âŒ ERROR: models/metrics.json not found!')
+              print('ERROR: models/metrics.json not found!')
               exit(1)
           
           with open('models/metrics.json', 'r') as f:
