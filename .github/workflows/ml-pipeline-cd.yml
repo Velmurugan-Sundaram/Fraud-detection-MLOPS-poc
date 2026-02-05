@@ -10,7 +10,7 @@ on:
 
 permissions:
   contents: read
-  artifacts: read
+  actions: read
 
 jobs:
   deploy-check:
@@ -63,31 +63,35 @@ jobs:
           python -c "
           import os
           import json
-          
+
           models_dir = 'models/'
-          
-          # Check models exist
-          models = [f for f in os.listdir(models_dir) if f.endswith('.pkl')]
-          print(f'✅ Found {len(models)} trained models:')
+
+          # Safely check models exist
+          if os.path.exists(models_dir):
+            models = [f for f in os.listdir(models_dir) if f.endswith('.pkl')]
+          else:
+            models = []
+
+          print(f' Found {len(models)} trained models:')
           for model in models:
-              print(f'   - {model}')
-          
+            print(f'   - {model}')
+
           # Check metrics
           if os.path.exists('models/metrics.json'):
-              with open('models/metrics.json', 'r') as f:
-                  metrics = json.load(f)
-              print(f'✅ Metrics available for {len(metrics)} models')
-          
+            with open('models/metrics.json', 'r') as f:
+              metrics = json.load(f)
+            print(f' Metrics available for {len(metrics)} models')
+
           # Check comparison report
           if os.path.exists('models/model_comparison_report.json'):
-              print('✅ Model comparison report available')
-          
-          print('✅ Deployment validation successful')
+            print(' Model comparison report available')
+
+          print(' Deployment validation successful')
           "
       
       - name: Generate Deployment Ready Status
         run: |
-          echo "✅ DEPLOYMENT READY" > deployment_status.txt
+          echo " DEPLOYMENT READY" > deployment_status.txt
           echo "Timestamp: $(date)" >> deployment_status.txt
           echo "Branch: ${{ github.ref }}" >> deployment_status.txt
           echo "Commit: ${{ github.sha }}" >> deployment_status.txt
@@ -106,19 +110,19 @@ jobs:
       - name: Success Notification
         run: |
           echo "╔════════════════════════════════════════════════════════╗"
-          echo "║     ✅ ML PIPELINE CI/CD PIPELINE SUCCESSFUL ✅        ║"
+          echo "║      ML PIPELINE CI/CD PIPELINE SUCCESSFUL        ║"
           echo "║                                                        ║"
           echo "║  All stages completed successfully!                  ║"
           echo "║  Models are ready for deployment.                    ║"
           echo "║                                                        ║"
-          echo "║  📊 Artifacts Generated:                              ║"
+          echo "║   Artifacts Generated:                              ║"
           echo "║     - Trained Models (PKL files)                      ║"
           echo "║     - Metrics (JSON)                                  ║"
           echo "║     - Model Comparison Report                         ║"
           echo "║     - Feature Consistency Report                      ║"
           echo "║     - Test Results & Coverage                         ║"
           echo "║                                                        ║"
-          echo "║  🚀 Next Steps:                                       ║"
+          echo "║   Next Steps:                                       ║"
           echo "║     1. Review artifacts in Actions tab                ║"
           echo "║     2. Deploy to staging environment                  ║"
           echo "║     3. Run performance tests                          ║"
