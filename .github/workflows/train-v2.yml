@@ -77,7 +77,7 @@ jobs:
           with open('models/v2/metadata.json', 'w') as f:
               json.dump(v2_metadata, f, indent=2)
           
-          print(' v2 Metadata generated')
+          print('v2 Metadata generated')
           "
       
       - name: Upload v2 Models
@@ -100,23 +100,9 @@ jobs:
     steps:
       - name: Model v2 Training Complete
         run: |
-          echo "╔════════════════════════════════════════════════════════╗"
-          echo "║         MODEL V2 TRAINING COMPLETED                ║"
-          echo "║                                                        ║"
-          echo "║  Version: v2.0.0                                       ║"
-          echo "║  Status: Ready for canary deployment                   ║"
-          echo "║                                                        ║"
-          echo "║   Models Available:                                  ║"
-          echo "║     - LogisticRegression v2                            ║"
-          echo "║     - RandomForest v2                                  ║"
-          echo "║     - XGBoost v2                                       ║"
-          echo "║     - LightGBM v2                                      ║"
-          echo "║                                                        ║"
-          echo "║   Enhancements:                                      ║"
-          echo "║     - Enhanced hyperparameters                         ║"
-          echo "║     - Improved feature scaling                         ║"
-          echo "║     - Class weight balancing                           ║"
-          echo "║     - MLFlow experiment tracking                       ║"
-          echo "║                                                        ║"
-          echo "║  Next: Deploy canary v2 (5% traffic split)             ║"
-          echo "╚════════════════════════════════════════════════════════╝"
+          echo "Model V2 Training Completed"
+          echo "Version: v2.0.0"
+          echo "Status: Ready for canary deployment"
+          echo "Models: LogisticRegression, RandomForest, XGBoost, LightGBM"
+          echo "Enhancements: Enhanced hyperparameters, class weight balancing, MLFlow tracking"
+          echo "Next: Deploy canary v2 with 5% traffic split"

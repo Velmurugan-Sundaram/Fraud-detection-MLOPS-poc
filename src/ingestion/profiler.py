@@ -64,7 +64,7 @@ class DataProfiler:
             Path(output_path).parent.mkdir(parents=True, exist_ok=True)
             with open(output_path, 'w') as f:
                 json.dump(profile, f, indent=2)
-            logger.info(f"✓ Profile saved to {output_path}")
+            logger.info(f"âœ“ Profile saved to {output_path}")
         except Exception as e:
             logger.error(f"Error saving profile: {e}")
             raise

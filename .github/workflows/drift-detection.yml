@@ -47,9 +47,9 @@ jobs:
           validated_path = 'data/validated/creditcard_validated.parquet'
           if Path(validated_path).exists():
               df = pd.read_parquet(validated_path)
-              print(f'✅ Loaded {len(df)} records from validated data')
+              print(f' Loaded {len(df)} records from validated data')
           else:
-              print('⚠️  No validated data found - using sample')
+              print('  No validated data found - using sample')
           "
       
       - name: Run Drift Detection
@@ -76,13 +76,13 @@ jobs:
               # Save report
               save_drift_report(drift_report, 'models/drift_reports/drift_report_latest.json')
               
-              print(f'✅ Drift Detection Complete')
+              print(f' Drift Detection Complete')
               print(f'   Drift Detected: {drift_detected}')
               print(f'   Features Analyzed: {len(drift_report.get(\"metrics\", {}))}')
               if drift_detected:
                   print(f'   Features with Drift: {len(drift_report.get(\"features_with_drift\", []))}')
           else:
-              print('⚠️  No data for drift detection')
+              print('  No data for drift detection')
           "
       
       - name: Generate Drift Report
@@ -110,7 +110,7 @@ jobs:
           with open('models/drift_reports/drift_summary.json', 'w') as f:
               json.dump(drift_summary, f, indent=2)
           
-          print('✅ Drift summary generated')
+          print(' Drift summary generated')
           "
       
       - name: Upload Drift Report
@@ -124,7 +124,7 @@ jobs:
         run: |
           echo "Drift Detection Summary:"
           echo "========================"
-          echo "✅ Status: Analysis Complete"
+          echo " Status: Analysis Complete"
           echo "Features Monitored: 28"
           echo "Drift Threshold: 10%"
           echo "Alert Status: No alerts"
@@ -163,16 +163,16 @@ jobs:
               with open(current_metrics_path, 'r') as f:
                   current = json.load(f)
               
-              print('✅ Model Performance Comparison:')
+              print(' Model Performance Comparison:')
               for model_name in baseline.keys():
                   if model_name in current:
                       baseline_f1 = baseline[model_name].get('f1_score', 0)
                       current_f1 = current[model_name].get('f1_score', 0)
                       change = ((current_f1 - baseline_f1) / baseline_f1) * 100 if baseline_f1 > 0 else 0
-                      status = '✅' if change > -5 else '⚠️ '
+                      status = '' if change > -5 else ' '
                       print(f'   {status} {model_name}: {change:+.2f}% change')
           else:
-              print('⚠️  Baseline or current metrics not found')
+              print('  Baseline or current metrics not found')
           "
       
       - name: Generate Performance Report
@@ -200,7 +200,7 @@ jobs:
           with open('models/performance_report.json', 'w') as f:
               json.dump(perf_report, f, indent=2)
           
-          print('✅ Performance report generated')
+          print(' Performance report generated')
           "
 
   notify-drift-analysis:
@@ -210,22 +210,12 @@ jobs:
     steps:
       - name: Drift Analysis Complete
         run: |
-          echo "╔════════════════════════════════════════════════════════╗"
-          echo "║      ✅ DRIFT DETECTION JOB COMPLETED ✅               ║"
-          echo "║                                                        ║"
-          echo "║  📊 Data Drift Analysis:                               ║"
-          echo "║     Status: No significant drift                        ║"
-          echo "║     Features: 28 analyzed                               ║"
-          echo "║     Threshold: 10%                                      ║"
-          echo "║                                                        ║"
-          echo "║  📈 Model Performance:                                 ║"
-          echo "║     F1 Score Change: -1.2%                             ║"
-          echo "║     Accuracy Change: +0.8%                             ║"
-          echo "║     Status: STABLE                                      ║"
-          echo "║                                                        ║"
-          echo "║  🔔 Alerts: None triggered                             ║"
-          echo "║  📋 Report: models/drift_reports/drift_summary.json    ║"
-          echo "║  ⏱️  Next Check: In 6 hours                           ║"
-          echo "║                                                        ║"
-          echo "║  ✨ All systems nominal                                ║"
-          echo "╚════════════════════════════════════════════════════════╝"
+          echo "Drift Detection Job Completed"
+          echo "Data Drift Analysis: No significant drift detected"
+          echo "Features Analyzed: 28"
+          echo "Threshold: 10%"
+          echo "Model Performance: F1 Score -1.2%, Accuracy +0.8%"
+          echo "Status: STABLE"
+          echo "Alerts: None triggered"
+          echo "Report: models/drift_reports/drift_summary.json"
+          echo "Next Check: In 6 hours"

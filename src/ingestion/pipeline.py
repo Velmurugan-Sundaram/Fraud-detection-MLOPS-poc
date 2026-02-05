@@ -40,7 +40,7 @@ class DataIngestionPipeline:
             logger.info("\n[STEP 2/5] Validating data schema...")
             schema_valid, schema_errors = self.validator.validate_schema(df)
             if not schema_valid:
-                logger.error("❌ Schema validation failed!")
+                logger.error("âŒ Schema validation failed!")
                 raise ValueError(f"Schema errors: {schema_errors}")
             
             # Step 3: Validate quality
@@ -60,7 +60,7 @@ class DataIngestionPipeline:
             self.loader.save_parquet(df, output_path)
             
             logger.info("\n" + "=" * 70)
-            logger.info("✅ DATA INGESTION PIPELINE COMPLETED SUCCESSFULLY!")
+            logger.info("âœ… DATA INGESTION PIPELINE COMPLETED SUCCESSFULLY!")
             logger.info("=" * 70)
             logger.info(f"\nOutput Location: {output_path}")
             logger.info(f"Profile Location: {profile_path}")
@@ -68,12 +68,12 @@ class DataIngestionPipeline:
             return df
         
         except Exception as e:
-            logger.error(f"\n❌ Pipeline failed with error: {e}")
+            logger.error(f"\nâŒ Pipeline failed with error: {e}")
             raise
     
     def _log_quality_report(self, report: dict) -> None:
         """Pretty print quality report"""
-        logger.info("\n📊 DATA QUALITY REPORT:")
+        logger.info("\nðŸ“Š DATA QUALITY REPORT:")
         logger.info(f"   Total Rows: {report['total_rows']:,}")
         logger.info(f"   Total Columns: {report['total_columns']}")
         
@@ -82,17 +82,17 @@ class DataIngestionPipeline:
         
         if 'minimum_rows' in checks:
             c = checks['minimum_rows']
-            status = "✓" if c['passed'] else "✗"
+            status = "âœ“" if c['passed'] else "âœ—"
             logger.info(f"     {status} Minimum Rows: {c['value']:,} (threshold: {c['threshold']:,})")
         
         if 'completeness' in checks:
             c = checks['completeness']
-            status = "✓" if c['passed'] else "✗"
+            status = "âœ“" if c['passed'] else "âœ—"
             logger.info(f"     {status} Completeness: {c['value']:.2%} (threshold: {c['threshold']:.2%})")
         
         if 'duplicates' in checks:
             d = checks['duplicates']
-            status = "✓" if d['passed'] else "✗"
+            status = "âœ“" if d['passed'] else "âœ—"
             logger.info(f"     {status} Duplicates: {d['value']:.4%} (threshold: {d['threshold']:.2%})")
         
         if 'class_distribution' in checks:

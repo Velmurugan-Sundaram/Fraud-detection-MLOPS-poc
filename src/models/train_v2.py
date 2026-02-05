@@ -86,13 +86,13 @@ def train_model_v2():
         model_path = Path(v2_models_dir) / f"{model_name}_model_v2.pkl"
         with open(model_path, 'wb') as f:
             pickle.dump(model, f)
-        logger.info(f"  ✅ Saved {model_name} v2 model")
+        logger.info(f"  âœ… Saved {model_name} v2 model")
     
     # Save v2 metrics
     v2_metrics_path = f"{v2_models_dir}/metrics_v2.json"
     with open(v2_metrics_path, 'w') as f:
         json.dump(results['metrics'], f, indent=2)
-    logger.info(f"✅ Saved v2 metrics to {v2_metrics_path}")
+    logger.info(f"âœ… Saved v2 metrics to {v2_metrics_path}")
     
     # Create v2 metadata
     v2_metadata = {
@@ -109,7 +109,7 @@ def train_model_v2():
         json.dump(v2_metadata, f, indent=2)
     
     logger.info("=" * 70)
-    logger.info("✅ MODEL V2 TRAINING COMPLETED")
+    logger.info("âœ… MODEL V2 TRAINING COMPLETED")
     logger.info("=" * 70)
     logger.info(f"Location: {v2_models_dir}")
     logger.info(f"Models: {list(results['models'].keys())}")

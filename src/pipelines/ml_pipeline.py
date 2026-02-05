@@ -77,7 +77,7 @@ class MLTrainingPipeline:
             }
         
         except Exception as e:
-            logger.error(f"\n❌ Pipeline failed: {e}")
+            logger.error(f"\nâŒ Pipeline failed: {e}")
             raise
     
     def _run_data_ingestion(self):
@@ -111,7 +111,7 @@ class MLTrainingPipeline:
         
         parity_valid, parity_report = checker.check_feature_parity(self.data, df_engineered)
         if not parity_valid:
-            logger.warning("  ⚠️  Parity check failed - review issues")
+            logger.warning("  âš ï¸  Parity check failed - review issues")
         
         # Check train/test consistency
         consistency_valid, consistency_report = checker.check_train_test_consistency(

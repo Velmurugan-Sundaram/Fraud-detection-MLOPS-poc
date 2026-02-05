@@ -106,7 +106,7 @@ class FeatureConsistencyChecker:
         
         if report['issues']:
             for issue in report['issues']:
-                logger.warning(f"    ⚠️  {issue}")
+                logger.warning(f"    âš ï¸  {issue}")
         
         return report['parity_valid'], report
     
@@ -149,7 +149,7 @@ class FeatureConsistencyChecker:
             
             overlap = len(train_tuples & test_tuples)
             if overlap > 0:
-                logger.warning(f"    ⚠️  Found {overlap} overlapping rows between train and test")
+                logger.warning(f"    âš ï¸  Found {overlap} overlapping rows between train and test")
                 report['issues'].append(f"Data leakage: {overlap} rows in both train and test")
         
         report['checks']['no_data_leakage'] = len([i for i in report['issues'] if 'leakage' in i.lower()]) == 0
@@ -181,7 +181,7 @@ class FeatureConsistencyChecker:
         # Allow 2% difference in positive class ratio
         if abs(train_positive_ratio - test_positive_ratio) > 0.02:
             logger.warning(
-                f"    ⚠️  Class imbalance mismatch: "
+                f"    âš ï¸  Class imbalance mismatch: "
                 f"Train={train_positive_ratio:.2%}, Test={test_positive_ratio:.2%}"
             )
         
@@ -201,7 +201,7 @@ class FeatureConsistencyChecker:
         
         if report['issues']:
             for issue in report['issues']:
-                logger.warning(f"    ⚠️  {issue}")
+                logger.warning(f"    âš ï¸  {issue}")
         
         return report['consistent'], report
     
@@ -251,7 +251,7 @@ class FeatureConsistencyChecker:
                 mean_diff = abs(stats['train_mean'] - stats['test_mean']) / stats['train_std']
                 if mean_diff > 2.0:  # More than 2 std deviations
                     report['issues'].append(
-                        f"Distribution shift in '{col}': mean diff = {mean_diff:.2f}σ"
+                        f"Distribution shift in '{col}': mean diff = {mean_diff:.2f}Ïƒ"
                     )
             
             report['statistics'][col] = stats
@@ -264,7 +264,7 @@ class FeatureConsistencyChecker:
         
         if report['issues']:
             for issue in report['issues']:
-                logger.warning(f"    ⚠️  {issue}")
+                logger.warning(f"    âš ï¸  {issue}")
         
         return report['distributions_ok'], report
     

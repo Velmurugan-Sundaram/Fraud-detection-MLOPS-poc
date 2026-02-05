@@ -55,9 +55,9 @@ class SchemaValidator:
         
         success = len(errors) == 0
         if success:
-            logger.info("✓ Schema validation passed")
+            logger.info("âœ“ Schema validation passed")
         else:
-            logger.error(f"✗ Schema validation failed:")
+            logger.error(f"âœ— Schema validation failed:")
             for error in errors:
                 logger.error(f"  - {error}")
         

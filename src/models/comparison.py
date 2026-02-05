@@ -38,7 +38,7 @@ class ModelComparator:
         try:
             mlflow.set_experiment(experiment_name)
         except Exception as e:
-            logger.warning(f"⚠️  MLFlow setup warning: {e}")
+            logger.warning(f"âš ï¸  MLFlow setup warning: {e}")
         
     def compare_models(self, metrics: Dict[str, Dict[str, float]]) -> pd.DataFrame:
         """Compare models based on multiple metrics
@@ -121,7 +121,7 @@ class ModelComparator:
             List of ranked models with details
         """
         if not metrics:
-            logger.error("❌ No metrics provided to get_model_rankings()")
+            logger.error("âŒ No metrics provided to get_model_rankings()")
             logger.error(f"   Metrics type: {type(metrics)}, Value: {metrics}")
             raise ValueError("No metrics provided - models may not have trained successfully")
         
@@ -234,7 +234,7 @@ class ModelComparator:
                 return model_registry_name
         
         except Exception as e:
-            logger.error(f"❌ Failed to register model: {e}")
+            logger.error(f"âŒ Failed to register model: {e}")
             raise
     
     def save_comparison_report(self, output_path: str) -> None:

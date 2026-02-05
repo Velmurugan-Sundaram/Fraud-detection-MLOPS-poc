@@ -252,7 +252,7 @@ if __name__ == "__main__":
     # Print history
     logger.info("Recent deployments:")
     for deploy in trail.get_deployment_history()[:3]:
-        logger.info(f"  {deploy['version']} → {deploy['status']}")
+        logger.info(f"  {deploy['version']} â†’ {deploy['status']}")
     
     # Print report
     report = trail.generate_report()

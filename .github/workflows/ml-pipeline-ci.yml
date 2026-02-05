@@ -96,9 +96,9 @@ jobs:
       # Step 1: Data Ingestion
       - name: "STEP 1: Data Ingestion"
         run: |
-          echo "════════════════════════════════════════"
+          echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
           echo "Starting Data Ingestion Pipeline..."
-          echo "════════════════════════════════════════"
+          echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
           python -c "
           from src.ingestion.pipeline import DataIngestionPipeline
           import logging
@@ -112,9 +112,9 @@ jobs:
       # Step 2: Data Validation
       - name: "STEP 2: Data Validation"
         run: |
-          echo "════════════════════════════════════════"
+          echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
           echo "Starting Data Validation..."
-          echo "════════════════════════════════════════"
+          echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
           python -c "
           import pandas as pd
           import yaml
@@ -174,9 +174,9 @@ jobs:
       # Step 3: Feature Engineering
       - name: "STEP 3: Feature Engineering"
         run: |
-          echo "════════════════════════════════════════"
+          echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
           echo "Starting Feature Engineering..."
-          echo "════════════════════════════════════════"
+          echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
           python -c "
           import pandas as pd
           import yaml
@@ -237,9 +237,9 @@ jobs:
       # Step 4: Feature Consistency Checks
       - name: "STEP 4: Feature Consistency Checks (Parity Verified)"
         run: |
-          echo "════════════════════════════════════════"
+          echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
           echo "Starting Feature Consistency Checks..."
-          echo "════════════════════════════════════════"
+          echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
           python -c "
           import pandas as pd
           import yaml
@@ -321,9 +321,9 @@ jobs:
       # Step 5: Model Training with MLFlow (Model v1)
       - name: "STEP 5: Model Training with MLFlow (Model v1 Registration)"
         run: |
-          echo "════════════════════════════════════════"
+          echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
           echo "Starting Model Training with MLFlow..."
-          echo "════════════════════════════════════════"
+          echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
           python -c "
           import pandas as pd
           import yaml
@@ -368,15 +368,15 @@ jobs:
           import os
           
           if not os.path.exists('models/metrics.json'):
-              print('❌ ERROR: models/metrics.json not found!')
+              print('âŒ ERROR: models/metrics.json not found!')
               exit(1)
           
           with open('models/metrics.json', 'r') as f:
               metrics = json.load(f)
           
-          print(f'✅ Found metrics.json with {len(metrics)} models')
+          print(f' Found metrics.json with {len(metrics)} models')
           for model_name, model_metrics in metrics.items():
-              print(f'   ✅ {model_name}: {list(model_metrics.keys())}')
+              print(f'    {model_name}: {list(model_metrics.keys())}')
           "
       
       # Upload model artifacts
@@ -437,8 +437,8 @@ jobs:
           metrics_file = 'models/metrics.json'
           
           if not os.path.exists(metrics_file):
-              print('❌ ERROR: metrics.json not found!')
-              print('📂 Contents of models/ directory:')
+              print(' ERROR: metrics.json not found!')
+              print(' Contents of models/ directory:')
               os.system('ls -la models/')
               exit(1)
           
@@ -446,22 +446,22 @@ jobs:
               metrics = json.load(f)
           
           if not metrics:
-              print('❌ ERROR: metrics.json is empty!')
+              print(' ERROR: metrics.json is empty!')
               print(f'   Content: {metrics}')
               exit(1)
           
-          print(f'✅ Metrics found for {len(metrics)} models:')
+          print(f' Metrics found for {len(metrics)} models:')
           for model_name, model_metrics in metrics.items():
               print(f'   - {model_name}: {len(model_metrics)} metrics')
-          print('✅ Metrics validation passed')
+          print(' Metrics validation passed')
           "
       
       # Step 6: Model Comparison & Selection
       - name: "STEP 6: Model Comparison & Selection (Best Model Selection)"
         run: |
-          echo "════════════════════════════════════════"
+          echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
           echo "Starting Model Comparison & Selection..."
-          echo "════════════════════════════════════════"
+          echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
           python -c "
           import json
           import logging
@@ -481,7 +481,7 @@ jobs:
                   metrics = json.load(f)
               
               if not metrics:
-                  logger.error('❌ Metrics dictionary is empty!')
+                  logger.error(' Metrics dictionary is empty!')
                   logger.error(f'   Raw content: {metrics}')
                   sys.exit(1)
               
@@ -492,23 +492,23 @@ jobs:
               # Get rankings (this will validate metrics)
               try:
                   rankings = comparator.get_model_rankings(metrics)
-                  logger.info(f'✅ Generated rankings for {len(rankings)} models')
+                  logger.info(f' Generated rankings for {len(rankings)} models')
               except Exception as e:
-                  logger.error(f'❌ Failed to generate rankings: {e}')
+                  logger.error(f' Failed to generate rankings: {e}')
                   logger.error(f'   Metrics content: {metrics}')
                   sys.exit(1)
               
               # Get best model
               best_model_info = comparator.get_best_model_info(rankings)
-              print(f'🏆 Best Model: {best_model_info[\"name\"]}')
-              print(f'📊 Composite Score: {best_model_info[\"composite_score\"]:.4f}')
+              print(f' Best Model: {best_model_info[\"name\"]}')
+              print(f' Composite Score: {best_model_info[\"composite_score\"]:.4f}')
               
               # Save comparison report
               comparator.save_comparison_report('models/model_comparison_report.json')
-              print('✅ Model comparison report saved')
+              print(' Model comparison report saved')
               
           except Exception as e:
-              logger.error(f'❌ Model comparison failed: {e}')
+              logger.error(f' Model comparison failed: {e}')
               import traceback
               logger.error(traceback.format_exc())
               sys.exit(1)
@@ -518,9 +518,9 @@ jobs:
       # Step 7: FastAPI Service Validation
       - name: "STEP 7: FastAPI Service Validation"
         run: |
-          echo "════════════════════════════════════════"
+          echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
           echo "Validating FastAPI Service Setup..."
-          echo "════════════════════════════════════════"
+          echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
           python -c "
           import logging
           logging.basicConfig(level=logging.INFO)
@@ -529,11 +529,11 @@ jobs:
           
           try:
               api = PredictionAPI()
-              print('✅ FastAPI service initialization successful')
-              print('✅ Model loaded successfully')
-              print('✅ API ready for deployment')
+              print(' FastAPI service initialization successful')
+              print(' Model loaded successfully')
+              print(' API ready for deployment')
           except Exception as e:
-              print(f'❌ API initialization failed: {e}')
+              print(f' API initialization failed: {e}')
               raise
           "
         continue-on-error: false
@@ -602,10 +602,10 @@ jobs:
       
       - name: Generate CI Report
         run: |
-          echo "╔════════════════════════════════════════════════════════╗" >> ci_report.txt
-          echo "║       ML PIPELINE CI/CD EXECUTION REPORT               ║" >> ci_report.txt
-          echo "║              GitHub Actions Workflow                   ║" >> ci_report.txt
-          echo "╚════════════════════════════════════════════════════════╝" >> ci_report.txt
+          echo "â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•—" >> ci_report.txt
+          echo "â•‘       ML PIPELINE CI/CD EXECUTION REPORT               â•‘" >> ci_report.txt
+          echo "â•‘              GitHub Actions Workflow                   â•‘" >> ci_report.txt
+          echo "â•šâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•" >> ci_report.txt
           echo "" >> ci_report.txt
           echo "Repository: ${{ github.repository }}" >> ci_report.txt
           echo "Branch: ${{ github.ref }}" >> ci_report.txt
@@ -613,15 +613,15 @@ jobs:
           echo "Triggered by: ${{ github.event_name }}" >> ci_report.txt
           echo "Run ID: ${{ github.run_id }}" >> ci_report.txt
           echo "" >> ci_report.txt
-          echo "✅ PIPELINE STAGES COMPLETED:" >> ci_report.txt
-          echo "  1. ✅ Code Setup & Unit Tests" >> ci_report.txt
-          echo "  2. ✅ Data Ingestion & Validation" >> ci_report.txt
-          echo "  3. ✅ Feature Engineering" >> ci_report.txt
-          echo "  4. ✅ Feature Consistency Checks (Parity Verified)" >> ci_report.txt
-          echo "  5. ✅ Model Training + MLFlow (Model v1 Registered)" >> ci_report.txt
-          echo "  6. ✅ Model Comparison & Selection (Best Model Selected)" >> ci_report.txt
-          echo "  7. ✅ FastAPI Service Validation" >> ci_report.txt
-          echo "  8. ✅ Integration Tests" >> ci_report.txt
+          echo " PIPELINE STAGES COMPLETED:" >> ci_report.txt
+          echo "  1.  Code Setup & Unit Tests" >> ci_report.txt
+          echo "  2.  Data Ingestion & Validation" >> ci_report.txt
+          echo "  3.  Feature Engineering" >> ci_report.txt
+          echo "  4.  Feature Consistency Checks (Parity Verified)" >> ci_report.txt
+          echo "  5.  Model Training + MLFlow (Model v1 Registered)" >> ci_report.txt
+          echo "  6.  Model Comparison & Selection (Best Model Selected)" >> ci_report.txt
+          echo "  7.  FastAPI Service Validation" >> ci_report.txt
+          echo "  8.  Integration Tests" >> ci_report.txt
           echo "" >> ci_report.txt
           echo "Workflow completed at: $(date)" >> ci_report.txt
           cat ci_report.txt
@@ -634,19 +634,19 @@ jobs:
       
       - name: Print Summary
         run: |
-          echo "╔════════════════════════════════════════════════════════╗"
-          echo "║          🎉 ML PIPELINE CI/CD COMPLETED 🎉            ║"
-          echo "║                                                        ║"
-          echo "║  All pipeline stages executed successfully!           ║"
-          echo "║                                                        ║"
-          echo "║  ✅ Data Ingestion                                    ║"
-          echo "║  ✅ Data Validation                                   ║"
-          echo "║  ✅ Feature Engineering                               ║"
-          echo "║  ✅ Feature Consistency Checks                        ║"
-          echo "║  ✅ Model Training + MLFlow                           ║"
-          echo "║  ✅ Model Comparison & Selection                      ║"
-          echo "║  ✅ FastAPI Service                                   ║"
-          echo "║  ✅ Integration Tests                                 ║"
-          echo "║                                                        ║"
-          echo "║  Next: Deploy or merge to main branch                 ║"
-          echo "╚════════════════════════════════════════════════════════╝"
+          echo "â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•—"
+          echo "â•‘           ML PIPELINE CI/CD COMPLETED                  â•‘"
+          echo "â•‘                                                        â•‘"
+          echo "â•‘  All pipeline stages executed successfully!            â•‘"
+          echo "â•‘                                                        â•‘"
+          echo "â•‘   Data Ingestion                                       â•‘"
+          echo "â•‘   Data Validation                                      â•‘"
+          echo "â•‘   Feature Engineering                                  â•‘"
+          echo "â•‘   Feature Consistency Checks                           â•‘"
+          echo "â•‘   Model Training + MLFlow                              â•‘"
+          echo "â•‘   Model Comparison & Selection                         â•‘"
+          echo "â•‘   FastAPI Service                                      â•‘"
+          echo "â•‘   Integration Tests                                    â•‘"
+          echo "â•‘                                                        â•‘"
+          echo "â•‘  Next: Deploy or merge to main branch                  â•‘"
+          echo "â•šâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"

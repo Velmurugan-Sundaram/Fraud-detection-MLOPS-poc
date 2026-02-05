@@ -52,7 +52,7 @@ class ModelTrainer:
             mlflow.set_experiment(self.experiment_name)
             logger.info(f"MLFlow configured: {mlflow_uri}")
         except Exception as e:
-            logger.warning(f"⚠️  MLFlow setup warning: {e}")
+            logger.warning(f"âš ï¸  MLFlow setup warning: {e}")
     
     def handle_class_imbalance(self, X_train: pd.DataFrame, y_train: pd.Series) -> Tuple[pd.DataFrame, pd.Series]:
         """Apply SMOTE for class imbalance handling
@@ -224,7 +224,7 @@ class ModelTrainer:
                     logger.info(f"   MLFlow Run ID: {mlflow.active_run().info.run_id}")
                     
             except Exception as e:
-                logger.error(f"❌ Failed to train {model_name}: {e}")
+                logger.error(f"âŒ Failed to train {model_name}: {e}")
                 logger.error(traceback.format_exc())
                 continue
         

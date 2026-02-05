@@ -100,10 +100,10 @@ class DriftDetector:
                     'feature': feature,
                     'severity': max_diff * 100
                 })
-                logger.warning(f"  ⚠️  Drift detected in {feature}: {max_diff*100:.2f}%")
+                logger.warning(f"  âš ï¸  Drift detected in {feature}: {max_diff*100:.2f}%")
         
         drift_report['drift_detected'] = drift_detected
-        logger.info(f"  {'✅ No drift' if not drift_detected else '⚠️  Drift detected'}")
+        logger.info(f"  {'âœ… No drift' if not drift_detected else 'âš ï¸  Drift detected'}")
         
         return drift_detected, drift_report
     
@@ -148,7 +148,7 @@ class DriftDetector:
             max_class_diff = max(max_class_diff, class_diff)
         
         drift_report['prediction_drift_detected'] = max_class_diff > 0.1
-        logger.info(f"  {'✅ Stable' if not drift_report['prediction_drift_detected'] else '⚠️  Drift'}")
+        logger.info(f"  {'âœ… Stable' if not drift_report['prediction_drift_detected'] else 'âš ï¸  Drift'}")
         
         return drift_report['prediction_drift_detected'], drift_report
 
@@ -158,7 +158,7 @@ def save_drift_report(report: Dict, output_path: str = "models/drift_report.json
     Path(output_path).parent.mkdir(parents=True, exist_ok=True)
     with open(output_path, 'w') as f:
         json.dump(report, f, indent=2)
-    logger.info(f"✅ Drift report saved to {output_path}")
+    logger.info(f"âœ… Drift report saved to {output_path}")
 
 
 if __name__ == "__main__":

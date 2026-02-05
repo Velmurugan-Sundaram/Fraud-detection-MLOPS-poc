@@ -164,14 +164,14 @@ def main():
             print(f"Tests completed with exit code: {result.returncode}")
         
         elif choice == "9":
-            print("\n👋 Exiting...")
+            print("\nExiting...")
             sys.exit(0)
         
         else:
-            print("❌ Invalid choice. Please select 1-9")
+            print("Invalid choice. Please select 1-9")
     
     except Exception as e:
-        logger.error(f"❌ Error: {e}")
+        logger.error(f"Error: {e}")
         import traceback
         traceback.print_exc()
         sys.exit(1)

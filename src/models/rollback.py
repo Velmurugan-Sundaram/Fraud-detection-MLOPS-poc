@@ -67,7 +67,7 @@ class ModelRollback:
         with open(self.current_version_path, 'w') as f:
             json.dump(entry, f, indent=2)
         
-        logger.info(f"✅ Deployment recorded: {version}")
+        logger.info(f"âœ… Deployment recorded: {version}")
     
     def rollback_to_version(self, target_version: str) -> bool:
         """Rollback to a previous model version
@@ -90,7 +90,7 @@ class ModelRollback:
                 break
         
         if not target_entry:
-            logger.error(f"❌ Version {target_version} not found in history")
+            logger.error(f"âŒ Version {target_version} not found in history")
             return False
         
         try:
@@ -103,7 +103,7 @@ class ModelRollback:
                         self.models_dir / f"{current['version']}",
                         backup_dir
                     )
-                    logger.info(f"✅ Backed up current version to {backup_dir}")
+                    logger.info(f"âœ… Backed up current version to {backup_dir}")
             
             # Restore target version
             target_dir = self.models_dir / target_version
@@ -119,14 +119,14 @@ class ModelRollback:
                 with open(self.current_version_path, 'w') as f:
                     json.dump(target_entry, f, indent=2)
                 
-                logger.info(f"✅ Successfully rolled back to {target_version}")
+                logger.info(f"âœ… Successfully rolled back to {target_version}")
                 return True
             else:
-                logger.error(f"❌ Target version directory not found: {target_dir}")
+                logger.error(f"âŒ Target version directory not found: {target_dir}")
                 return False
         
         except Exception as e:
-            logger.error(f"❌ Rollback failed: {e}")
+            logger.error(f"âŒ Rollback failed: {e}")
             return False
     
     def list_available_versions(self) -> list:

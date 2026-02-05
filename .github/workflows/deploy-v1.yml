@@ -105,7 +105,7 @@ jobs:
           with open('registry_audit_trail.json', 'w') as f:
               json.dump(trail, f, indent=2)
           
-          print(' Registry audit trail updated')
+          print('Registry audit trail updated')
           "
       
       - name: Upload Registry Audit Trail
@@ -121,16 +121,9 @@ jobs:
     steps:
       - name: Deployment Success Notification
         run: |
-          echo "╔════════════════════════════════════════════════════════╗"
-          echo "║        MODEL V1 DEPLOYMENT SUCCESSFUL                  ║"
-          echo "║                                                        ║"
-          echo "║  Version: ${{ needs.deploy-model-v1.outputs.model_version }}"
-          echo "║  Deployment ID: ${{ needs.deploy-model-v1.outputs.deployment_id }}"
-          echo "║                                                        ║"
-          echo "║   Docker Image: fraud-detection:v1.0.0                 ║"
-          echo "║   Models Ready: All 4 models trained & optimized       ║"
-          echo "║   Metrics: Available for analysis                      ║"
-          echo "║   Registry: Audit trail recorded                       ║"
-          echo "║                                                        ║"
-          echo "║  Next: Deploy canary v1 | Train model v2               ║"
-          echo "╚════════════════════════════════════════════════════════╝"
+          echo "Model V1 Deployment Successful"
+          echo "Version: ${{ needs.deploy-model-v1.outputs.model_version }}"
+          echo "Deployment ID: ${{ needs.deploy-model-v1.outputs.deployment_id }}"
+          echo "Docker Image: fraud-detection:v1.0.0"
+          echo "Models: All 4 models trained"
+          echo "Status: Ready for canary deployment"
