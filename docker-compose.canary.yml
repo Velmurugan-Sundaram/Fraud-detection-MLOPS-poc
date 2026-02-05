@@ -1,0 +1,126 @@
+# Canary Deployment Configuration for Fraud Detection Models
+# Uses docker-compose with nginx as reverse proxy for traffic splitting
+
+version: '3.8'
+
+services:
+  # Nginx reverse proxy for traffic splitting
+  nginx-proxy:
+    image: nginx:alpine
+    container_name: fraud-detection-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./canary_nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    networks:
+      - fraud-detection-net
+    depends_on:
+      - api-v1
+      - api-v2
+    restart: unless-stopped
+
+  # Model v1 - Stable production
+  api-v1:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        MODEL_VERSION: v1.0.0
+    container_name: fraud-detection-api-v1
+    environment:
+      - PYTHONUNBUFFERED=1
+      - MODEL_VERSION=v1.0.0
+      - PORT=8001
+    volumes:
+      - ./models:/app/models:ro
+      - ./data:/app/data:ro
+      - ./logs/v1:/app/logs
+    networks:
+      - fraud-detection-net
+    expose:
+      - "8001"
+    restart: unless-stopped
+
+  # Model v2 - Canary candidate
+  api-v2:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        MODEL_VERSION: v2.0.0
+    container_name: fraud-detection-api-v2
+    environment:
+      - PYTHONUNBUFFERED=1
+      - MODEL_VERSION=v2.0.0
+      - PORT=8002
+    volumes:
+      - ./models:/app/models:ro
+      - ./data:/app/data:ro
+      - ./logs/v2:/app/logs
+    networks:
+      - fraud-detection-net
+    expose:
+      - "8002"
+    restart: unless-stopped
+
+  # Prometheus for metrics collection
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: fraud-detection-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./alert_rules.yml:/etc/prometheus/alert_rules.yml:ro
+      - prometheus-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+    networks:
+      - fraud-detection-net
+    restart: unless-stopped
+
+  # Grafana for visualization
+  grafana:
+    image: grafana/grafana:latest
+    container_name: fraud-detection-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_INSTALL_PLUGINS=grafana-piechart-panel
+    volumes:
+      - ./grafana_dashboard.json:/etc/grafana/provisioning/dashboards/fraud-detection.json:ro
+      - grafana-data:/var/lib/grafana
+    depends_on:
+      - prometheus
+    networks:
+      - fraud-detection-net
+    restart: unless-stopped
+
+  # Alertmanager for alert routing
+  alertmanager:
+    image: prom/alertmanager:latest
+    container_name: fraud-detection-alertmanager
+    ports:
+      - "9093:9093"
+    volumes:
+      - ./alertmanager.yml:/etc/alertmanager/alertmanager.yml:ro
+      - alertmanager-data:/alertmanager
+    command:
+      - '--config.file=/etc/alertmanager/alertmanager.yml'
+      - '--storage.path=/alertmanager'
+    networks:
+      - fraud-detection-net
+    restart: unless-stopped
+
+volumes:
+  prometheus-data:
+  grafana-data:
+  alertmanager-data:
+
+networks:
+  fraud-detection-net:
+    driver: bridge

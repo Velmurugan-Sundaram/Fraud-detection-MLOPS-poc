@@ -1,0 +1,76 @@
+global:
+  resolve_timeout: 5m
+
+route:
+  receiver: 'default'
+  group_by: ['alertname', 'cluster', 'service']
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 4h
+
+  routes:
+    # Critical alerts - immediate action
+    - match:
+        severity: critical
+      receiver: 'ops-critical'
+      continue: true
+      group_wait: 10s
+
+    # Warning alerts - batch processing
+    - match:
+        severity: warning
+      receiver: 'ops-warnings'
+      group_wait: 1m
+
+    # Data quality alerts
+    - match:
+        component: data_quality
+      receiver: 'data-team'
+
+    # Model quality alerts
+    - match:
+        component: model_quality
+      receiver: 'ml-team'
+
+receivers:
+  - name: 'default'
+    # Default receiver configuration
+
+  - name: 'ops-critical'
+    # Critical operations alerts
+    webhook_configs:
+      - url: 'http://localhost:5001/alerts/critical'
+        send_resolved: true
+
+  - name: 'ops-warnings'
+    # Warning-level operations alerts
+    webhook_configs:
+      - url: 'http://localhost:5001/alerts/warning'
+        send_resolved: true
+
+  - name: 'data-team'
+    # Data quality and drift alerts
+    webhook_configs:
+      - url: 'http://localhost:5002/alerts/data-drift'
+        send_resolved: true
+
+  - name: 'ml-team'
+    # ML model quality alerts
+    webhook_configs:
+      - url: 'http://localhost:5003/alerts/model-quality'
+        send_resolved: true
+
+inhibit_rules:
+  # Inhibit warning if critical exists
+  - source_match:
+      severity: 'critical'
+    target_match:
+      severity: 'warning'
+    equal: ['alertname', 'dev', 'instance']
+
+  # Inhibit warning if service is down
+  - source_match:
+      alertname: 'FraudDetectionServiceDown'
+    target_match_re:
+      alertname: '.*'
+    equal: ['job']

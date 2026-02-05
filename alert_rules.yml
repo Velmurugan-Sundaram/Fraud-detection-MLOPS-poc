@@ -1,0 +1,94 @@
+# Alert rules for Fraud Detection MLOps
+groups:
+  - name: fraud_detection_alerts
+    interval: 30s
+    rules:
+      # Data Drift Alert
+      - alert: DataDriftDetected
+        expr: fraud_detection_data_drift_detected{feature!=""} > 0
+        for: 5m
+        labels:
+          severity: warning
+          component: data_quality
+        annotations:
+          summary: "Data drift detected in {{ $labels.feature }}"
+          description: "Feature {{ $labels.feature }} shows significant drift from baseline"
+
+      # Prediction Latency Alert
+      - alert: HighPredictionLatency
+        expr: histogram_quantile(0.95, fraud_detection_prediction_latency_seconds) > 0.5
+        for: 5m
+        labels:
+          severity: warning
+          component: performance
+        annotations:
+          summary: "High prediction latency for {{ $labels.model_name }}"
+          description: "95th percentile latency exceeds 500ms for model {{ $labels.model_name }}"
+
+      # Low Model Accuracy Alert
+      - alert: LowModelAccuracy
+        expr: fraud_detection_model_accuracy < 0.80
+        for: 10m
+        labels:
+          severity: critical
+          component: model_quality
+        annotations:
+          summary: "Low accuracy for {{ $labels.model_name }} v{{ $labels.version }}"
+          description: "Model accuracy dropped below 80% threshold"
+
+      # Low F1 Score Alert
+      - alert: LowF1Score
+        expr: fraud_detection_model_f1_score < 0.60
+        for: 10m
+        labels:
+          severity: critical
+          component: model_quality
+        annotations:
+          summary: "Low F1 score for {{ $labels.model_name }} v{{ $labels.version }}"
+          description: "Model F1 score dropped below 60% threshold"
+
+      # API Error Rate Alert
+      - alert: HighAPIErrorRate
+        expr: |
+          (sum(rate(fraud_detection_api_requests_total{status="error"}[5m])) by (endpoint)) /
+          (sum(rate(fraud_detection_api_requests_total[5m])) by (endpoint)) > 0.05
+        for: 5m
+        labels:
+          severity: warning
+          component: api
+        annotations:
+          summary: "High error rate on {{ $labels.endpoint }}"
+          description: "Error rate exceeds 5% on endpoint {{ $labels.endpoint }}"
+
+      # Service Down Alert
+      - alert: FraudDetectionServiceDown
+        expr: up{job="fraud-detection-api"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          component: service
+        annotations:
+          summary: "Fraud detection API is down"
+          description: "The fraud detection API service has been unreachable for 1 minute"
+
+      # High Memory Usage Alert
+      - alert: HighMemoryUsage
+        expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) > 0.85
+        for: 5m
+        labels:
+          severity: warning
+          component: infrastructure
+        annotations:
+          summary: "High memory usage detected"
+          description: "System memory usage exceeds 85%"
+
+      # Model Retraining Needed Alert
+      - alert: ModelRetrainingNeeded
+        expr: fraud_detection_data_drift_detected > 0
+        for: 1h
+        labels:
+          severity: info
+          component: ml_pipeline
+        annotations:
+          summary: "Model retraining recommended"
+          description: "Persistent data drift detected - consider retraining models"

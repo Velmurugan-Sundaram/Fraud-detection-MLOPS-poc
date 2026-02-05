@@ -6,14 +6,19 @@ import pickle
 import json
 
 from fastapi import FastAPI, HTTPException, Body
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, PlainTextResponse
 from pydantic import BaseModel, Field
 import pandas as pd
 import numpy as np
 import uvicorn
+import time
 
 from src.features.engineering import FeatureEngineer
 from src.utils.logger import setup_logging
+from src.api.metrics import (
+    track_prediction, track_api_request, get_metrics,
+    prediction_counter, prediction_latency, api_requests_total, api_request_latency
+)
 
 # Setup logging
 logger = setup_logging()
@@ -151,7 +156,13 @@ class PredictionAPI:
                 model_version="1.0"
             )
         
+        @self.app.get("/metrics")
+        async def metrics():
+            """Prometheus metrics endpoint"""
+            return PlainTextResponse(get_metrics().decode('utf-8'))
+        
         @self.app.post("/predict", response_model=PredictionResponse)
+        @track_api_request(endpoint="/predict", method="POST")
         async def predict(transaction: TransactionFeatures = Body(...)):
             """Predict fraud for a single transaction"""
             try:
