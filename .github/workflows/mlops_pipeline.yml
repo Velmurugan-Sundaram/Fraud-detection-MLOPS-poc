@@ -11,16 +11,6 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
-    services:
-      # Use a service container for Postgres if needed for valid testing (optional for basic check)
-      # mlflow-db:
-      #   image: postgres:13
-      #   env:
-      #     POSTGRES_USER: mlflow
-      #     POSTGRES_PASSWORD: password
-      #     POSTGRES_DB: mlflow_db
-      #   ports:
-      #     - 5432:5432
 
     steps:
     - uses: actions/checkout@v3
