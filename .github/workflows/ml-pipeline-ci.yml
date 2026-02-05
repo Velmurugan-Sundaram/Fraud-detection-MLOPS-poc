@@ -351,7 +351,7 @@ jobs:
           trainer.save_metrics('models/metrics.json')
           
           print('Model Training Completed')
-          print(f'Models trained: {list(results["models"].keys())}')
+          print(f'Models trained: {list(trainer.models.keys())}')
           print(f'Metrics saved: {list(trainer.metrics.keys())}')
           print(f'Metrics content sample:')
           for model_name in list(trainer.metrics.keys())[:1]:
