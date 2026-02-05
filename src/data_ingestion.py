@@ -63,6 +63,19 @@ def main():
 
         save_data(df, args.output)
         print(f"\nIngestion completed. Data saved to {args.output}")
+
+        # Log to MLflow
+        try:
+            import mlflow
+            mlflow.set_experiment("Fraud_Detection_Experiment")
+            with mlflow.start_run(run_name="Data_Ingestion"):
+                mlflow.log_param("input_file", args.input)
+                mlflow.log_metric("num_rows", df.shape[0])
+                mlflow.log_metric("num_cols", df.shape[1])
+                mlflow.log_artifact(args.output)
+                print("Ingestion metrics logged to MLflow")
+        except Exception as e:
+            print(f"Failed to log to MLflow: {e}")
         
     except Exception as e:
         print(f"Ingestion failed. Check logs for details.")

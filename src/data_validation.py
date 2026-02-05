@@ -84,6 +84,16 @@ def validate_data(file_path):
             sys.exit(1)
         
         logging.info("Validation PASSED!")
+
+        # Log to MLflow
+        try:
+            import mlflow
+            mlflow.set_experiment("Fraud_Detection_Experiment")
+            with mlflow.start_run(run_name="Data_Validation"):
+                mlflow.log_param("validation_status", "Passed")
+                logging.info("Validation metrics logged to MLflow")
+        except Exception as e:
+            logging.warning(f"Failed to log to MLflow: {e}")
         
     except Exception as e:
         logging.error(f"Validation process failed with error: {e}")

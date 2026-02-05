@@ -69,6 +69,20 @@ def feature_engineering(input_path, output_path, scaler_path):
         df_processed.to_csv(output_path, index=False)
         logging.info(f"Saved processed data to {output_path}")
 
+        # Log to MLflow
+        try:
+            import mlflow
+            mlflow.set_experiment("Fraud_Detection_Experiment")
+            with mlflow.start_run(run_name="Feature_Engineering"):
+                mlflow.log_param("scaler", "StandardScaler")
+                mlflow.log_metric("num_features", df_processed.shape[1])
+                mlflow.log_metric("num_rows", df_processed.shape[0])
+                mlflow.log_artifact(scaler_path)
+                mlflow.log_artifact(output_path)
+                logging.info("Feature engineering metrics logged to MLflow")
+        except Exception as e:
+            logging.warning(f"Failed to log to MLflow: {e}")
+
     except Exception as e:
         logging.error(f"Feature engineering failed: {e}")
         sys.exit(1)

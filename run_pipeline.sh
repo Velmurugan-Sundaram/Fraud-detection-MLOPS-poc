@@ -6,27 +6,27 @@ echo "Starting Fraud Detection Pipeline..."
 echo "-----------------------------------"
 echo "Step 1: Data Ingestion"
 echo "-----------------------------------"
-python src/data_ingestion.py
+./venv/bin/python src/data_ingestion.py
 
 echo "-----------------------------------"
 echo "Step 2: Data Validation"
 echo "-----------------------------------"
-python src/data_validation.py
+./venv/bin/python src/data_validation.py
 
 echo "-----------------------------------"
 echo "Step 3: Feature Engineering"
 echo "-----------------------------------"
-python src/feature_engineering.py
+./venv/bin/python src/feature_engineering.py
 
 echo "-----------------------------------"
 echo "Step 4: Data Splitting"
 echo "-----------------------------------"
-python src/data_splitting.py
+./venv/bin/python src/data_splitting.py
 
 echo "-----------------------------------"
 echo "Step 5: Model Training"
 echo "-----------------------------------"
-python src/model_training.py
+./venv/bin/python src/model_training.py
 
 echo "-----------------------------------"
 echo "Pipeline Completed Successfully!"
