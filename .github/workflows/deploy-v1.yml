@@ -58,11 +58,11 @@ jobs:
               models = [f for f in os.listdir(models_dir) if f.endswith('.pkl')]
           else:
               models = []
-          print(f'✅ Found {len(models)} trained models')
+          print(f' Found {len(models)} trained models')
           if os.path.exists('models/metrics.json'):
               with open('models/metrics.json', 'r') as f:
                   metrics = json.load(f)
-              print(f'✅ Metrics available for {len(metrics)} models')
+              print(f' Metrics available for {len(metrics)} models')
           "
       
       - name: Build Docker Image
@@ -75,7 +75,7 @@ jobs:
         run: |
           echo "model_version=v1.0.0" >> $GITHUB_OUTPUT
           echo "deployment_id=$(date +%s)" >> $GITHUB_OUTPUT
-          echo "✅ Model v1.0.0 ready for deployment"
+          echo " Model v1.0.0 ready for deployment"
           echo "   Docker image: fraud-detection:v1.0.0"
           echo "   Models: LogisticRegression, RandomForest, XGBoost, LightGBM"
       
@@ -105,7 +105,7 @@ jobs:
           with open('registry_audit_trail.json', 'w') as f:
               json.dump(trail, f, indent=2)
           
-          print('✅ Registry audit trail updated')
+          print(' Registry audit trail updated')
           "
       
       - name: Upload Registry Audit Trail
@@ -122,15 +122,15 @@ jobs:
       - name: Deployment Success Notification
         run: |
           echo "╔════════════════════════════════════════════════════════╗"
-          echo "║       ✅ MODEL V1 DEPLOYMENT SUCCESSFUL ✅             ║"
+          echo "║        MODEL V1 DEPLOYMENT SUCCESSFUL                  ║"
           echo "║                                                        ║"
           echo "║  Version: ${{ needs.deploy-model-v1.outputs.model_version }}"
           echo "║  Deployment ID: ${{ needs.deploy-model-v1.outputs.deployment_id }}"
           echo "║                                                        ║"
-          echo "║  📦 Docker Image: fraud-detection:v1.0.0              ║"
-          echo "║  🎯 Models Ready: All 4 models trained & optimized    ║"
-          echo "║  📊 Metrics: Available for analysis                    ║"
-          echo "║  🔍 Registry: Audit trail recorded                     ║"
+          echo "║   Docker Image: fraud-detection:v1.0.0                 ║"
+          echo "║   Models Ready: All 4 models trained & optimized       ║"
+          echo "║   Metrics: Available for analysis                      ║"
+          echo "║   Registry: Audit trail recorded                       ║"
           echo "║                                                        ║"
-          echo "║  Next: Deploy canary v1 | Train model v2              ║"
+          echo "║  Next: Deploy canary v1 | Train model v2               ║"
           echo "╚════════════════════════════════════════════════════════╝"

@@ -54,6 +54,10 @@ jobs:
           python -c "
           import json
           from datetime import datetime
+          from pathlib import Path
+          
+          # Ensure v2 directory exists
+          Path('models/v2').mkdir(parents=True, exist_ok=True)
           
           v2_metadata = {
               'version': 'v2.0.0',
@@ -87,6 +91,7 @@ jobs:
         with:
           name: metrics-v2
           path: models/v2/metrics_v2.json
+        continue-on-error: true
 
   notify-v2-ready:
     needs: train-v2

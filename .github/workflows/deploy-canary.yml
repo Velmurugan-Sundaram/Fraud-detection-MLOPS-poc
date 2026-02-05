@@ -85,7 +85,7 @@ jobs:
           with open('canary_config.json', 'w') as f:
               json.dump(canary_config, f, indent=2)
           
-          print('✅ Canary configuration generated')
+          print(' Canary configuration generated')
           "
       
       - name: Build Docker Images
@@ -93,7 +93,7 @@ jobs:
           echo "Building Docker images for v1 and v2..."
           docker build -t fraud-detection:v1.0.0 .
           docker build -t fraud-detection:v2.0.0 . --build-arg MODEL_VERSION=v2
-          echo "✅ Docker images built"
+          echo " Docker images built"
       
       - name: Setup Canary Environment
         run: |
@@ -105,7 +105,7 @@ jobs:
           cp alert_rules.yml canary-deployment/
           cp alertmanager.yml canary-deployment/
           cp grafana_dashboard.json canary-deployment/
-          echo "✅ Canary environment ready"
+          echo " Canary environment ready"
       
       - name: Record Canary Deployment
         run: |
@@ -136,7 +136,7 @@ jobs:
           with open('registry_audit_trail.json', 'w') as f:
               json.dump(trail, f, indent=2)
           
-          print('✅ Canary deployment recorded in audit trail')
+          print(' Canary deployment recorded in audit trail')
           "
       
       - name: Upload Canary Configuration
@@ -161,7 +161,7 @@ jobs:
       
       - name: Setup Prometheus
         run: |
-          echo "✅ Prometheus scrape config configured"
+          echo " Prometheus scrape config configured"
           echo "   Targets:"
           echo "     - API v1: localhost:8001"
           echo "     - API v2: localhost:8002"
@@ -169,14 +169,14 @@ jobs:
       
       - name: Setup Grafana Dashboard
         run: |
-          echo "✅ Grafana dashboard deployed"
+          echo " Grafana dashboard deployed"
           echo "   Dashboard: Fraud Detection MLOps"
           echo "   URL: http://localhost:3000"
           echo "   Metrics: Model accuracy, F1 score, prediction latency, error rate"
       
       - name: Configure Alerts
         run: |
-          echo "✅ Alert rules configured"
+          echo "  Alert rules configured"
           echo "   - Data drift detection"
           echo "   - High latency (>500ms)"
           echo "   - Low accuracy (<80%)"
@@ -191,27 +191,27 @@ jobs:
       - name: Canary Deployment Live
         run: |
           echo "╔════════════════════════════════════════════════════════╗"
-          echo "║      ✅ CANARY DEPLOYMENT LIVE - TRAFFIC SPLIT ✅      ║"
+          echo "║       CANARY DEPLOYMENT LIVE - TRAFFIC SPLIT           ║"
           echo "║                                                        ║"
-          echo "║  Version v1.0.0 (Stable)     →  95% traffic           ║"
-          echo "║  Version v2.0.0 (Canary)     →   5% traffic           ║"
+          echo "║  Version v1.0.0 (Stable)     →  95% traffic            ║"
+          echo "║  Version v2.0.0 (Canary)     →   5% traffic            ║"
           echo "║                                                        ║"
-          echo "║  🔄 Load Balancing:                                   ║"
+          echo "║   Load Balancing:                                      ║"
           echo "║     - Nginx reverse proxy active                       ║"
           echo "║     - Client IP-based routing                          ║"
           echo "║     - Consistent hashing enabled                       ║"
           echo "║                                                        ║"
-          echo "║  📊 Monitoring:                                        ║"
+          echo "║   Monitoring:                                          ║"
           echo "║     - Prometheus metrics collection: LIVE              ║"
           echo "║     - Grafana dashboard: LIVE                          ║"
           echo "║     - Alert rules: ACTIVE                              ║"
           echo "║                                                        ║"
-          echo "║  🔍 Canary Metrics:                                   ║"
+          echo "║   Canary Metrics:                                      ║"
           echo "║     - Accuracy difference threshold: 2%                ║"
           echo "║     - Latency threshold: +100ms vs v1                  ║"
           echo "║     - Error rate threshold: 1% increase                ║"
           echo "║                                                        ║"
-          echo "║  ⏱️  Canary Duration: 24-48 hours                     ║"
-          echo "║  📈 Success Criteria: No critical alerts               ║"
-          echo "║  🚀 Next: Full production deployment                  ║"
+          echo "║   Canary Duration: 24-48 hours                         ║"
+          echo "║   Success Criteria: No critical alerts                 ║"
+          echo "║   Next: Full production deployment                     ║"
           echo "╚════════════════════════════════════════════════════════╝"
