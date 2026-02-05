@@ -75,9 +75,9 @@ jobs:
         run: |
           echo "model_version=v1.0.0" >> $GITHUB_OUTPUT
           echo "deployment_id=$(date +%s)" >> $GITHUB_OUTPUT
-          echo " Model v1.0.0 ready for deployment"
-          echo "   Docker image: fraud-detection:v1.0.0"
-          echo "   Models: LogisticRegression, RandomForest, XGBoost, LightGBM"
+          echo "Model v1.0.0 ready for deployment"
+          echo "  Docker image: fraud-detection:v1.0.0"
+          echo "  Models: LogisticRegression, RandomForest, XGBoost, LightGBM"
       
       - name: Update Registry Audit Trail
         run: |

@@ -105,7 +105,7 @@ jobs:
           cp alert_rules.yml canary-deployment/
           cp alertmanager.yml canary-deployment/
           cp grafana_dashboard.json canary-deployment/
-          echo " Canary environment ready"
+          echo "Canary environment ready"
       
       - name: Record Canary Deployment
         run: |
@@ -161,27 +161,27 @@ jobs:
       
       - name: Setup Prometheus
         run: |
-          echo " Prometheus scrape config configured"
-          echo "   Targets:"
-          echo "     - API v1: localhost:8001"
-          echo "     - API v2: localhost:8002"
-          echo "     - Metrics: localhost:9090"
+          echo "Prometheus scrape config configured"
+          echo "  Targets:"
+          echo "    - API v1: localhost:8001"
+          echo "    - API v2: localhost:8002"
+          echo "    - Metrics: localhost:9090"
       
       - name: Setup Grafana Dashboard
         run: |
-          echo " Grafana dashboard deployed"
-          echo "   Dashboard: Fraud Detection MLOps"
-          echo "   URL: http://localhost:3000"
-          echo "   Metrics: Model accuracy, F1 score, prediction latency, error rate"
+          echo "Grafana dashboard deployed"
+          echo "  Dashboard: Fraud Detection MLOps"
+          echo "  URL: http://localhost:3000"
+          echo "  Metrics: Model accuracy, F1 score, prediction latency, error rate"
       
       - name: Configure Alerts
         run: |
-          echo "  Alert rules configured"
-          echo "   - Data drift detection"
-          echo "   - High latency (>500ms)"
-          echo "   - Low accuracy (<80%)"
-          echo "   - High error rate (>5%)"
-          echo "   - Service down detection"
+          echo "Alert rules configured"
+          echo "  - Data drift detection"
+          echo "  - High latency (>500ms)"
+          echo "  - Low accuracy (<80%)"
+          echo "  - High error rate (>5%)"
+          echo "  - Service down detection"
 
   notify-canary-live:
     needs: [canary-deployment, setup-monitoring]

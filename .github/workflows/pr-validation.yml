@@ -209,19 +209,19 @@ jobs:
               with open('src/config/config.yaml', 'r') as f:
                   config = yaml.safe_load(f)
               
-              print('âœ… Model trainer imports working')
+              print('Model trainer imports working')
               trainer = ModelTrainer(config)
-              print('âœ… Model trainer initialized')
+              print('Model trainer initialized')
               
               comparator = ModelComparator(config)
-              print('âœ… Model comparator initialized')
+              print('Model comparator initialized')
               
               # Check API without loading full model
-              print('âœ… API imports working')
+              print('API imports working')
               
-              print('âœ… Model & API pipeline validated')
+              print('Model & API pipeline validated')
           except Exception as e:
-              print(f'âŒ Model pipeline validation failed: {e}')
+              print(f'Model pipeline validation failed: {e}')
               raise
           "
   
@@ -233,29 +233,29 @@ jobs:
     steps:
       - name: PR Validation Summary
         run: |
-          echo "â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•—"
-          echo "â•‘          PR VALIDATION CHECKS COMPLETED               â•‘"
-          echo "â•‘                                                        â•‘"
-          echo "â•‘  âœ… Code Quality Checks                               â•‘"
-          echo "â•‘     - Formatting (Black)                              â•‘"
-          echo "â•‘     - Import sorting (isort)                          â•‘"
-          echo "â•‘     - Linting (Pylint, Flake8)                        â•‘"
-          echo "â•‘                                                        â•‘"
-          echo "â•‘  âœ… Test Coverage                                     â•‘"
-          echo "â•‘     - Unit tests                                      â•‘"
-          echo "â•‘     - Coverage reporting                              â•‘"
-          echo "â•‘                                                        â•‘"
-          echo "â•‘  âœ… Data Pipeline                                     â•‘"
-          echo "â•‘     - Ingestion validation                            â•‘"
-          echo "â•‘     - Schema validation                               â•‘"
-          echo "â•‘                                                        â•‘"
-          echo "â•‘  âœ… Feature Pipeline                                  â•‘"
-          echo "â•‘     - Engineering validation                          â•‘"
-          echo "â•‘     - Consistency checking                            â•‘"
-          echo "â•‘                                                        â•‘"
-          echo "â•‘  âœ… Model & API Pipeline                              â•‘"
-          echo "â•‘     - Training validation                             â•‘"
-          echo "â•‘     - API initialization                              â•‘"
-          echo "â•‘                                                        â•‘"
-          echo "â•‘  Ready to merge! âœ…                                   â•‘"
-          echo "â•šâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
+          echo "========================================"
+          echo "PR VALIDATION CHECKS COMPLETED"
+          echo ""
+          echo "Code Quality Checks:"
+          echo "  - Formatting (Black)"
+          echo "  - Import sorting (isort)"
+          echo "  - Linting (Pylint, Flake8)"
+          echo ""
+          echo "Test Coverage:"
+          echo "  - Unit tests"
+          echo "  - Coverage reporting"
+          echo ""
+          echo "Data Pipeline:"
+          echo "  - Ingestion validation"
+          echo "  - Schema validation"
+          echo ""
+          echo "Feature Pipeline:"
+          echo "  - Engineering validation"
+          echo "  - Consistency checking"
+          echo ""
+          echo "Model & API Pipeline:"
+          echo "  - Training validation"
+          echo "  - API initialization"
+          echo ""
+          echo "Ready to merge! ✅"
+          echo "========================================"

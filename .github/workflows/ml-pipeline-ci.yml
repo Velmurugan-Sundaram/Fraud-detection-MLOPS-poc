@@ -96,9 +96,9 @@ jobs:
       # Step 1: Data Ingestion
       - name: "STEP 1: Data Ingestion"
         run: |
-          echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
+          echo "========================================"
           echo "Starting Data Ingestion Pipeline..."
-          echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
+          echo "========================================"
           python -c "
           from src.ingestion.pipeline import DataIngestionPipeline
           import logging
@@ -112,9 +112,9 @@ jobs:
       # Step 2: Data Validation
       - name: "STEP 2: Data Validation"
         run: |
-          echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
+          echo "========================================"
           echo "Starting Data Validation..."
-          echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
+          echo "========================================"
           python -c "
           import pandas as pd
           import yaml
@@ -174,9 +174,9 @@ jobs:
       # Step 3: Feature Engineering
       - name: "STEP 3: Feature Engineering"
         run: |
-          echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
+          echo "========================================"
           echo "Starting Feature Engineering..."
-          echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
+          echo "========================================"
           python -c "
           import pandas as pd
           import yaml
@@ -237,9 +237,9 @@ jobs:
       # Step 4: Feature Consistency Checks
       - name: "STEP 4: Feature Consistency Checks (Parity Verified)"
         run: |
-          echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
+          echo "========================================"
           echo "Starting Feature Consistency Checks..."
-          echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
+          echo "========================================"
           python -c "
           import pandas as pd
           import yaml
@@ -321,9 +321,9 @@ jobs:
       # Step 5: Model Training with MLFlow (Model v1)
       - name: "STEP 5: Model Training with MLFlow (Model v1 Registration)"
         run: |
-          echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
+          echo "========================================"
           echo "Starting Model Training with MLFlow..."
-          echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
+          echo "========================================"
           python -c "
           import pandas as pd
           import yaml
@@ -459,9 +459,9 @@ jobs:
       # Step 6: Model Comparison & Selection
       - name: "STEP 6: Model Comparison & Selection (Best Model Selection)"
         run: |
-          echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
+          echo "========================================"
           echo "Starting Model Comparison & Selection..."
-          echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
+          echo "========================================"
           python -c "
           import json
           import logging
@@ -518,9 +518,9 @@ jobs:
       # Step 7: FastAPI Service Validation
       - name: "STEP 7: FastAPI Service Validation"
         run: |
-          echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
+          echo "========================================"
           echo "Validating FastAPI Service Setup..."
-          echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
+          echo "========================================"
           python -c "
           import logging
           logging.basicConfig(level=logging.INFO)
@@ -602,10 +602,10 @@ jobs:
       
       - name: Generate CI Report
         run: |
-          echo "â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•—" >> ci_report.txt
-          echo "â•‘       ML PIPELINE CI/CD EXECUTION REPORT               â•‘" >> ci_report.txt
-          echo "â•‘              GitHub Actions Workflow                   â•‘" >> ci_report.txt
-          echo "â•šâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•" >> ci_report.txt
+          echo "========================================" >> ci_report.txt
+          echo "ML PIPELINE CI/CD EXECUTION REPORT" >> ci_report.txt
+          echo "GitHub Actions Workflow" >> ci_report.txt
+          echo "========================================" >> ci_report.txt
           echo "" >> ci_report.txt
           echo "Repository: ${{ github.repository }}" >> ci_report.txt
           echo "Branch: ${{ github.ref }}" >> ci_report.txt
@@ -634,19 +634,20 @@ jobs:
       
       - name: Print Summary
         run: |
-          echo "â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•—"
-          echo "â•‘           ML PIPELINE CI/CD COMPLETED                  â•‘"
-          echo "â•‘                                                        â•‘"
-          echo "â•‘  All pipeline stages executed successfully!            â•‘"
-          echo "â•‘                                                        â•‘"
-          echo "â•‘   Data Ingestion                                       â•‘"
-          echo "â•‘   Data Validation                                      â•‘"
-          echo "â•‘   Feature Engineering                                  â•‘"
-          echo "â•‘   Feature Consistency Checks                           â•‘"
-          echo "â•‘   Model Training + MLFlow                              â•‘"
-          echo "â•‘   Model Comparison & Selection                         â•‘"
-          echo "â•‘   FastAPI Service                                      â•‘"
-          echo "â•‘   Integration Tests                                    â•‘"
-          echo "â•‘                                                        â•‘"
-          echo "â•‘  Next: Deploy or merge to main branch                  â•‘"
-          echo "â•šâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
+          echo "========================================"
+          echo "ML PIPELINE CI/CD COMPLETED"
+          echo ""
+          echo "All pipeline stages executed successfully!"
+          echo ""
+          echo "Pipeline stages completed:"
+          echo "  - Data Ingestion"
+          echo "  - Data Validation"
+          echo "  - Feature Engineering"
+          echo "  - Feature Consistency Checks"
+          echo "  - Model Training + MLFlow"
+          echo "  - Model Comparison & Selection"
+          echo "  - FastAPI Service"
+          echo "  - Integration Tests"
+          echo ""
+          echo "Next: Deploy or merge to main branch"
+          echo "========================================"
