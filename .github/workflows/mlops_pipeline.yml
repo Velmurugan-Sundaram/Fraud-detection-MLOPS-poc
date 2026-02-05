@@ -56,6 +56,12 @@ jobs:
           exit 1
         fi
 
+    - name: Upload Drift Report
+      uses: actions/upload-artifact@v4
+      with:
+        name: drift-report
+        path: artifacts/drift_report.html
+
     - name: Build Docker Image
       run: |
         docker build -t fraud-detection-pipeline .
