@@ -40,14 +40,14 @@ def main():
             from src.pipelines.ml_pipeline import MLTrainingPipeline
             pipeline = MLTrainingPipeline()
             results = pipeline.run()
-            print(f"\n✅ Pipeline completed. Best model: {results['best_model']}")
+            print(f"\nPipeline completed. Best model: {results['best_model']}")
         
         elif choice == "2":
             print("\n[RUNNING] Data ingestion...")
             from src.ingestion.pipeline import DataIngestionPipeline
             pipeline = DataIngestionPipeline()
             df = pipeline.run()
-            print(f"✅ Data ingestion completed. Loaded {len(df)} records")
+            print(f"Data ingestion completed. Loaded {len(df)} records")
         
         elif choice == "3":
             print("\n[RUNNING] Feature engineering...")
@@ -65,7 +65,7 @@ def main():
             df_scaled = engineer.scale_features(df_eng)
             X_train, X_test, y_train, y_test = engineer.split_data(df_scaled)
             
-            print(f"✅ Feature engineering completed")
+            print(f"Feature engineering completed")
             print(f"   Training set: {X_train.shape}")
             print(f"   Test set: {X_test.shape}")
         
@@ -93,7 +93,7 @@ def main():
                 X_train, X_test, y_train, y_test
             )
             
-            print(f"✅ Consistency checks completed")
+            print(f"Consistency checks completed")
             print(f"   Parity valid: {parity_valid}")
             print(f"   Consistency valid: {consistency_valid}")
         
@@ -120,7 +120,7 @@ def main():
             trainer.save_models('models')
             trainer.save_metrics('models/metrics.json')
             
-            print(f"✅ Model training completed")
+            print(f"Model training completed")
             print(f"   Models trained: {list(results['models'].keys())}")
             print(f"   MLFlow runs: {list(results['run_ids'].keys())}")
         
@@ -141,7 +141,7 @@ def main():
             rankings = comparator.get_model_rankings(metrics)
             best_info = comparator.get_best_model_info(rankings)
             
-            print(f"✅ Model comparison completed")
+            print(f"Model comparison completed")
             print(f"   Best model: {best_info['name']}")
             print(f"   Composite score: {best_info['composite_score']:.4f}")
             
@@ -161,7 +161,7 @@ def main():
             print("\n[RUNNING] Integration tests...")
             import subprocess
             result = subprocess.run([sys.executable, "-m", "pytest", "tests/test_ml_pipeline.py", "-v", "-s"])
-            print(f"✅ Tests completed with exit code: {result.returncode}")
+            print(f"Tests completed with exit code: {result.returncode}")
         
         elif choice == "9":
             print("\n👋 Exiting...")
@@ -176,7 +176,7 @@ def main():
         traceback.print_exc()
         sys.exit(1)
     
-    print("\n✅ Done!\n")
+    print("\nDone!\n")
 
 
 if __name__ == "__main__":

@@ -1,6 +1,6 @@
 # 🗺️ MLOps Fraud Detection POC - Complete Navigation Guide
 
-## 📍 You Are Here: STEP 1 - Data Injection & Validation ✅
+## You Are Here: STEP 1 - Data Injection & Validation
 
 ---
 
@@ -261,7 +261,7 @@ git commit -m "Initialize DVC and add validated dataset"
 
 ---
 
-## 📊 File Sizes & Location Reference
+## File Sizes & Location Reference
 
 ```
 Project Root: c:\Users\mangeshd\Documents\Fraud-Detection-Mlops-poc\
@@ -439,7 +439,7 @@ python -c "from src.ingestion.pipeline import DataIngestionPipeline; p = DataIng
 
 ---
 
-## ✅ Validation Checklist
+## Validation Checklist
 
 Before moving to STEP 2:
 

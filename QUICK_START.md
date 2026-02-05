@@ -71,7 +71,7 @@ engineer = FeatureEngineer(config)
 df_eng = engineer.engineer_features(df)
 df_scaled = engineer.scale_features(df_eng)
 X_train, X_test, y_train, y_test = engineer.split_data(df_scaled)
-print('✅ Features ready')
+print('Features ready')
 """
 ```
 
@@ -92,7 +92,7 @@ df_eng = engineer.engineer_features(df)
 
 checker = FeatureConsistencyChecker(config)
 valid, report = checker.check_feature_parity(df, df_eng)
-print(f'✅ Parity verified: {valid}')
+print(f'Parity verified: {valid}')
 """
 ```
 
@@ -116,7 +116,7 @@ X_train, X_test, y_train, y_test = engineer.split_data(df_scaled)
 trainer = ModelTrainer(config)
 results = trainer.train_all_models(X_train, X_test, y_train, y_test)
 trainer.save_models('models')
-print('✅ Model v1 trained and registered')
+print('Model v1 trained and registered')
 """
 ```
 
@@ -135,7 +135,7 @@ with open('models/metrics.json') as f:
 
 comparator = ModelComparator(config)
 rankings = comparator.get_model_rankings(metrics)
-print(f'✅ Best model: {rankings[0][\"model\"]}')
+print(f'Best model: {rankings[0]["model"]}')
 """
 ```
 
@@ -274,7 +274,7 @@ python -c "import pandas as pd; print(pd.read_parquet('data/validated/creditcard
 python -c "import os; print(os.listdir('models/'))"
 
 # 4. Check API
-python -c "from src.api.service import PredictionAPI; print('✅ API imports OK')"
+python -c "from src.api.service import PredictionAPI; print('API imports OK')"
 ```
 
 ---
@@ -306,6 +306,6 @@ python -c "from src.api.service import PredictionAPI; print('✅ API imports OK'
 
 ---
 
-**Status:** ✅ READY TO USE
+**Status:** READY TO USE
 
 Enjoy your ML pipeline! 🚀

@@ -73,7 +73,7 @@ class TestFeatureEngineering:
         """Test FeatureEngineer initialization"""
         engineer = FeatureEngineer(test_config)
         assert engineer.scaling_method == 'StandardScaler'
-        logger.info("✅ Feature engineer initialization test passed")
+        logger.info("Feature engineer initialization test passed")
     
     def test_feature_engineering(self, test_config, sample_data):
         """Test feature engineering transformations"""
@@ -89,7 +89,7 @@ class TestFeatureEngineering:
         # Check no NaN introduced
         assert df_engineered.isna().sum().sum() < len(df_engineered) * 0.01
         
-        logger.info("✅ Feature engineering test passed")
+        logger.info("Feature engineering test passed")
     
     def test_feature_scaling(self, test_config, sample_data):
         """Test feature scaling"""
@@ -110,7 +110,7 @@ class TestFeatureEngineering:
                 assert mean_val < 1.0, f"Scaled {col} mean too large: {mean_val}"
                 assert 0.5 < std_val < 1.5, f"Scaled {col} std not near 1: {std_val}"
         
-        logger.info("✅ Feature scaling test passed")
+        logger.info("Feature scaling test passed")
     
     def test_data_splitting(self, test_config, sample_data):
         """Test train/test splitting"""
@@ -133,7 +133,7 @@ class TestFeatureEngineering:
         # Check no leakage
         assert len(set(X_train.index) & set(X_test.index)) == 0
         
-        logger.info("✅ Data splitting test passed")
+        logger.info("Data splitting test passed")
 
 
 class TestFeatureConsistency:
@@ -143,7 +143,7 @@ class TestFeatureConsistency:
         """Test FeatureConsistencyChecker initialization"""
         checker = FeatureConsistencyChecker(test_config)
         assert checker.config is not None
-        logger.info("✅ Consistency checker initialization test passed")
+        logger.info("Consistency checker initialization test passed")
     
     def test_feature_parity_check(self, test_config, sample_data):
         """Test feature parity verification"""
@@ -158,7 +158,7 @@ class TestFeatureConsistency:
         assert report['checks']['row_count_preserved']
         assert report['checks']['original_columns_intact']
         
-        logger.info("✅ Feature parity check test passed")
+        logger.info("Feature parity check test passed")
     
     def test_train_test_consistency(self, test_config, sample_data):
         """Test train/test consistency checks"""
@@ -178,7 +178,7 @@ class TestFeatureConsistency:
         assert report['checks']['same_columns']
         assert report['checks']['no_data_leakage']
         
-        logger.info("✅ Train/test consistency test passed")
+        logger.info("Train/test consistency test passed")
     
     def test_distribution_check(self, test_config, sample_data):
         """Test feature distribution checking"""
@@ -195,7 +195,7 @@ class TestFeatureConsistency:
         assert 'statistics' in report
         assert len(report['statistics']) > 0
         
-        logger.info("✅ Distribution check test passed")
+        logger.info("Distribution check test passed")
 
 
 class TestModelTraining:
@@ -206,7 +206,7 @@ class TestModelTraining:
         trainer = ModelTrainer(test_config)
         assert trainer.model_config is not None
         assert trainer.mlflow_config is not None
-        logger.info("✅ Model trainer initialization test passed")
+        logger.info("Model trainer initialization test passed")
     
     def test_class_imbalance_handling(self, test_config, sample_data):
         """Test SMOTE for class imbalance"""
@@ -222,7 +222,7 @@ class TestModelTraining:
         assert len(X_resampled) >= len(X_train)
         assert y_resampled.sum() > y_train.sum()  # More fraud samples after SMOTE
         
-        logger.info("✅ Class imbalance handling test passed")
+        logger.info("Class imbalance handling test passed")
 
 
 class TestModelComparison:
@@ -232,7 +232,7 @@ class TestModelComparison:
         """Test ModelComparator initialization"""
         comparator = ModelComparator(test_config)
         assert comparator.config is not None
-        logger.info("✅ Model comparator initialization test passed")
+        logger.info("Model comparator initialization test passed")
     
     def test_model_comparison(self, test_config):
         """Test model comparison"""
@@ -262,7 +262,7 @@ class TestModelComparison:
         assert comparison_df.shape[0] == 2
         assert comparison_df.shape[1] == 6
         
-        logger.info("✅ Model comparison test passed")
+        logger.info("Model comparison test passed")
     
     def test_best_model_selection(self, test_config):
         """Test best model selection"""
@@ -283,7 +283,7 @@ class TestModelComparison:
         assert best_model == 'RandomForest'
         assert best_score == 0.82
         
-        logger.info("✅ Best model selection test passed")
+        logger.info("Best model selection test passed")
     
     def test_model_rankings(self, test_config):
         """Test model ranking calculation"""
@@ -312,7 +312,7 @@ class TestModelComparison:
         assert rankings[0]['model'] == 'Model2'  # Model2 should rank higher
         assert rankings[0]['composite_score'] > rankings[1]['composite_score']
         
-        logger.info("✅ Model ranking test passed")
+        logger.info("Model ranking test passed")
 
 
 class TestIntegration:
@@ -356,7 +356,7 @@ class TestIntegration:
         assert best_model_name == 'LogisticRegression'
         assert best_score > 0.5  # Should have reasonable performance
         
-        logger.info("✅ End-to-end pipeline integration test passed")
+        logger.info("End-to-end pipeline integration test passed")
 
 
 if __name__ == "__main__":

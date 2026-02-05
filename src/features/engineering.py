@@ -63,7 +63,7 @@ class FeatureEngineer:
         df_engineered['V_max'] = df_engineered[v_cols].max(axis=1)
         df_engineered['V_min'] = df_engineered[v_cols].min(axis=1)
         
-        logger.info(f"✅ Feature engineering completed. Generated {len(df_engineered.columns) - len(df.columns)} new features")
+        logger.info(f"Feature engineering completed. Generated {len(df_engineered.columns) - len(df.columns)} new features")
         return df_engineered
     
     def scale_features(self, df: pd.DataFrame, fit: bool = True) -> pd.DataFrame:
@@ -94,14 +94,14 @@ class FeatureEngineer:
             # Fit and transform
             df_scaled = df.copy()
             df_scaled[cols_to_scale] = self.scaler.fit_transform(df[cols_to_scale])
-            logger.info(f"✅ Scaler fitted and applied. Scaled {len(cols_to_scale)} features")
+            logger.info(f"Scaler fitted and applied. Scaled {len(cols_to_scale)} features")
         else:
             if self.scaler is None:
                 raise ValueError("Scaler not fitted. Call scale_features with fit=True first")
             
             df_scaled = df.copy()
             df_scaled[cols_to_scale] = self.scaler.transform(df[cols_to_scale])
-            logger.info(f"✅ Scaler applied. Scaled {len(cols_to_scale)} features")
+            logger.info(f"Scaler applied. Scaled {len(cols_to_scale)} features")
         
         return df_scaled
     
@@ -139,7 +139,7 @@ class FeatureEngineer:
                 random_state=random_state
             )
         
-        logger.info(f"✅ Train set: {X_train.shape[0]} samples, Test set: {X_test.shape[0]} samples")
+        logger.info(f"Train set: {X_train.shape[0]} samples, Test set: {X_test.shape[0]} samples")
         logger.info(f"   Class distribution (Train): Fraud={y_train.sum()} ({y_train.sum()/len(y_train)*100:.2f}%), Normal={(1-y_train).sum()} ({(1-y_train).sum()/len(y_train)*100:.2f}%)")
         logger.info(f"   Class distribution (Test): Fraud={y_test.sum()} ({y_test.sum()/len(y_test)*100:.2f}%), Normal={(1-y_test).sum()} ({(1-y_test).sum()/len(y_test)*100:.2f}%)")
         

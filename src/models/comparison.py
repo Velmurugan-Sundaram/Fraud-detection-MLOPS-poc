@@ -66,10 +66,10 @@ class ModelComparator:
         ranking_df['avg_rank'] = ranking_df[rank_cols].mean(axis=1)
         ranking_df = ranking_df.sort_values('avg_rank')
         
-        logger.info("\n📊 METRICS COMPARISON:")
+        logger.info("\nMETRICS COMPARISON:")
         logger.info(comparison_df.to_string())
         
-        logger.info("\n🏆 MODEL RANKINGS (by average rank):")
+        logger.info("\nMODEL RANKINGS (by average rank):")
         logger.info(ranking_df[['avg_rank']].to_string())
         
         self.comparison_results = {
@@ -106,7 +106,7 @@ class ModelComparator:
         if best_model is None:
             raise ValueError(f"No models have metric: {selection_criteria}")
         
-        logger.info(f"✅ BEST MODEL: {best_model}")
+        logger.info(f"BEST MODEL: {best_model}")
         logger.info(f"   {selection_criteria}: {best_score:.4f}")
         
         return best_model, best_score
@@ -151,7 +151,7 @@ class ModelComparator:
         # Sort by composite score
         rankings = sorted(rankings, key=lambda x: x['composite_score'], reverse=True)
         
-        logger.info("\n📊 COMPOSITE MODEL RANKINGS:")
+        logger.info("\nCOMPOSITE MODEL RANKINGS:")
         logger.info("(Weights: F1=35%, ROC-AUC=25%, PR-AUC=20%, Recall=15%, Precision=5%)\n")
         
         for rank, model_info in enumerate(rankings, 1):
@@ -215,7 +215,7 @@ class ModelComparator:
                     model_registry_name
                 )
                 
-                logger.info(f"✅ MODEL REGISTERED SUCCESSFULLY")
+                logger.info(f"MODEL REGISTERED SUCCESSFULLY")
                 logger.info(f"   Registry Name: {model_registry_name}")
                 logger.info(f"   Version: {model_info.version}")
                 logger.info(f"   Best Model Algorithm: {best_model_name}")
@@ -257,7 +257,7 @@ class ModelComparator:
         with open(output_path, 'w') as f:
             json.dump(report, f, indent=2, default=str)
         
-        logger.info(f"✅ Comparison report saved to {output_path}")
+        logger.info(f"Comparison report saved to {output_path}")
     
     def get_best_model_info(self, rankings: List[Dict[str, Any]]) -> Dict[str, Any]:
         """Get information about the best ranked model

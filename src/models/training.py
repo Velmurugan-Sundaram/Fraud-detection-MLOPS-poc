@@ -50,7 +50,7 @@ class ModelTrainer:
         
         try:
             mlflow.set_experiment(self.experiment_name)
-            logger.info(f"✅ MLFlow configured: {mlflow_uri}")
+            logger.info(f"MLFlow configured: {mlflow_uri}")
         except Exception as e:
             logger.warning(f"⚠️  MLFlow setup warning: {e}")
     
@@ -104,7 +104,7 @@ class ModelTrainer:
             raise ValueError(f"Unknown model: {model_name}")
         
         model.fit(X_train, y_train)
-        logger.info(f"✅ {model_name} trained successfully")
+        logger.info(f"{model_name} trained successfully")
         
         return model
     
@@ -220,7 +220,7 @@ class ModelTrainer:
                     else:
                         mlflow.sklearn.log_model(model, f"{model_name}_model")
                     
-                    logger.info(f"✅ {model_name} training completed")
+                    logger.info(f"{model_name} training completed")
                     logger.info(f"   MLFlow Run ID: {mlflow.active_run().info.run_id}")
                     
             except Exception as e:
@@ -229,7 +229,7 @@ class ModelTrainer:
                 continue
         
         logger.info("\n" + "=" * 70)
-        logger.info("✅ MODEL TRAINING COMPLETED")
+        logger.info("MODEL TRAINING COMPLETED")
         logger.info("=" * 70)
         
         return results
@@ -246,7 +246,7 @@ class ModelTrainer:
             model_path = Path(output_dir) / f"{model_name}_model.pkl"
             with open(model_path, 'wb') as f:
                 pickle.dump(model, f)
-            logger.info(f"✅ Saved {model_name} to {model_path}")
+            logger.info(f"Saved {model_name} to {model_path}")
     
     def save_metrics(self, output_path: str) -> None:
         """Save metrics to JSON file
@@ -259,7 +259,7 @@ class ModelTrainer:
         with open(output_path, 'w') as f:
             json.dump(self.metrics, f, indent=2)
         
-        logger.info(f"✅ Metrics saved to {output_path}")
+        logger.info(f"Metrics saved to {output_path}")
     
     def get_best_model(self) -> Tuple[str, Any, Dict[str, float]]:
         """Get the best model based on F1 score

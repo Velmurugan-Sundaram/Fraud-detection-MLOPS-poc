@@ -1,4 +1,4 @@
-# ✅ Dependency Resolution - Complete Fix
+# Dependency Resolution - Complete Fix
 
 ## Problem Summary
 CI/CD pipeline failing due to:

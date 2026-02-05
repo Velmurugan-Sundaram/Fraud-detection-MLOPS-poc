@@ -1,6 +1,6 @@
 # 🎊 SETUP COMPLETE - MLOps Fraud Detection POC Ready!
 
-## ✅ You Now Have
+## You Now Have
 
 A **complete, production-grade MLOps pipeline** for fraud detection with:
 
@@ -78,7 +78,7 @@ pytest tests/ -v
 
 ---
 
-## 📊 What STEP 1 Delivers
+## What STEP 1 Delivers
 
 ```
 INPUT:
@@ -325,7 +325,7 @@ c:\Users\mangeshd\Documents\Fraud-Detection-Mlops-poc\
 
 ---
 
-## ✅ Verification Checklist
+## Verification Checklist
 
 - [ ] Virtual environment setup complete
 - [ ] Dependencies installed

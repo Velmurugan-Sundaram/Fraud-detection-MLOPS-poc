@@ -68,7 +68,7 @@ class MLTrainingPipeline:
             self._save_results()
             
             logger.info("\n" + "=" * 70)
-            logger.info("✅ ML TRAINING PIPELINE COMPLETED SUCCESSFULLY!")
+            logger.info("ML TRAINING PIPELINE COMPLETED SUCCESSFULLY!")
             logger.info("=" * 70)
             
             return {
@@ -85,7 +85,7 @@ class MLTrainingPipeline:
         logger.info("  Loading and validating data...")
         pipeline = DataIngestionPipeline(self.config_path)
         self.data = pipeline.run()
-        logger.info(f"  ✅ Data loaded: {self.data.shape}")
+        logger.info(f"  Data loaded: {self.data.shape}")
     
     def _run_feature_engineering(self):
         """Run feature engineering"""
@@ -97,7 +97,7 @@ class MLTrainingPipeline:
         
         # Split data
         self.X_train, self.X_test, self.y_train, self.y_test = engineer.split_data(df_scaled)
-        logger.info(f"  ✅ Features engineered and data split")
+        logger.info(f"  Features engineered and data split")
     
     def _run_consistency_checks(self):
         """Run feature consistency checks"""
@@ -135,7 +135,7 @@ class MLTrainingPipeline:
             "data/validated/feature_consistency_report.json"
         )
         
-        logger.info(f"  ✅ Consistency checks completed (parity={parity_valid}, consistency={consistency_valid})")
+        logger.info(f"  Consistency checks completed (parity={parity_valid}, consistency={consistency_valid})")
     
     def _run_model_training(self):
         """Run model training with MLFlow"""
@@ -150,7 +150,7 @@ class MLTrainingPipeline:
         self.metrics = results['metrics']
         self.trainer = trainer
         
-        logger.info(f"  ✅ {len(results['models'])} models trained successfully")
+        logger.info(f"  {len(results['models'])} models trained successfully")
     
     def _run_model_comparison(self):
         """Run model comparison and selection"""
@@ -178,7 +178,7 @@ class MLTrainingPipeline:
             "models/model_comparison_report.json"
         )
         
-        logger.info(f"  ✅ Best model selected: {self.best_model_name}")
+        logger.info(f"  Best model selected: {self.best_model_name}")
         logger.info(f"     Registered as: {model_registry_name}")
     
     def _save_results(self):
@@ -201,7 +201,7 @@ class MLTrainingPipeline:
         with open("models/model_info.json", 'w') as f:
             json.dump(model_info, f, indent=2)
         
-        logger.info(f"  ✅ Results saved to models/")
+        logger.info(f"  Results saved to models/")
 
 
 if __name__ == "__main__":

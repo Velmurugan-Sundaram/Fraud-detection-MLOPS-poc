@@ -105,7 +105,7 @@ jobs:
           logging.basicConfig(level=logging.INFO)
           pipeline = DataIngestionPipeline()
           pipeline.run()
-          print('✅ Data Ingestion Completed Successfully')
+          print('Data Ingestion Completed Successfully')
           "
         continue-on-error: false
       
@@ -125,9 +125,9 @@ jobs:
               config = yaml.safe_load(f)
           
           df = pd.read_parquet(config['data']['validated_path'])
-          print(f'✅ Data validation passed: {df.shape[0]} rows, {df.shape[1]} columns')
-          print(f'✅ No missing values: {df.isna().sum().sum() == 0}')
-          print(f'✅ Memory usage: {df.memory_usage(deep=True).sum() / 1024**2:.2f} MB')
+          print(f'Data validation passed: {df.shape[0]} rows, {df.shape[1]} columns')
+          print(f'No missing values: {df.isna().sum().sum() == 0}')
+          print(f'Memory usage: {df.memory_usage(deep=True).sum() / 1024**2:.2f} MB')
           "
         continue-on-error: false
       
@@ -189,15 +189,15 @@ jobs:
           from src.features.engineering import FeatureEngineer
           
           df = pd.read_parquet(config['data']['validated_path'])
-          print(f'📊 Original shape: {df.shape}')
+          print(f'Original shape: {df.shape}')
           
           engineer = FeatureEngineer(config)
           df_engineered = engineer.engineer_features(df)
-          print(f'📊 After engineering: {df_engineered.shape}')
+          print(f'After engineering: {df_engineered.shape}')
           
           df_scaled = engineer.scale_features(df_engineered, fit=True)
-          print(f'✅ Features scaled successfully')
-          print(f'📊 Features ready for training: {df_scaled.shape}')
+          print(f'Features scaled successfully')
+          print(f'Features ready for training: {df_scaled.shape}')
           "
         continue-on-error: false
 
@@ -263,15 +263,15 @@ jobs:
           
           # Check parity
           parity_valid, parity_report = checker.check_feature_parity(df, df_engineered)
-          print(f'✅ Parity Check: {parity_valid}')
+          print(f'Parity Check: {parity_valid}')
           
           # Check consistency
           consistency_valid, consistency_report = checker.check_train_test_consistency(X_train, X_test, y_train, y_test)
-          print(f'✅ Consistency Check: {consistency_valid}')
+          print(f'Consistency Check: {consistency_valid}')
           
           # Check distributions
           dist_valid, dist_report = checker.check_feature_distributions(X_train, X_test)
-          print(f'✅ Distribution Check: {dist_valid}')
+          print(f'Distribution Check: {dist_valid}')
           
           # Save report
           import json
@@ -281,7 +281,7 @@ jobs:
               'distributions': dist_report
           }
           checker.save_consistency_report(report, 'data/validated/feature_consistency_report.json')
-          print('✅ Feature consistency report saved')
+          print('Feature consistency report saved')
           "
         continue-on-error: false
 
@@ -350,10 +350,10 @@ jobs:
           trainer.save_models('models')
           trainer.save_metrics('models/metrics.json')
           
-          print('✅ Model Training Completed')
-          print(f'✅ Models trained: {list(results[\"models\"].keys())}')
-          print(f'✅ Metrics saved: {list(trainer.metrics.keys())}')
-          print(f'✅ Metrics content sample:')
+          print('Model Training Completed')
+          print(f'Models trained: {list(results["models"].keys())}')
+          print(f'Metrics saved: {list(trainer.metrics.keys())}')
+          print(f'Metrics content sample:')
           for model_name in list(trainer.metrics.keys())[:1]:
               print(f'   {model_name}: {trainer.metrics[model_name]}')
           "
@@ -485,7 +485,7 @@ jobs:
                   logger.error(f'   Raw content: {metrics}')
                   sys.exit(1)
               
-              logger.info(f'✅ Loaded metrics for {len(metrics)} models')
+              logger.info(f'Loaded metrics for {len(metrics)} models')
               
               comparator = ModelComparator(config)
               

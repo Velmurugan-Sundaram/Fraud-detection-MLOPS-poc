@@ -1,10 +1,10 @@
 # 🎯 ML Pipeline Build Summary
 
-## ✅ All Components Built Successfully!
+## All Components Built Successfully!
 
 ### Completed Deliverables
 
-#### 1. **Feature Engineering** ✅
+#### 1. **Feature Engineering**
 - **File:** `src/features/engineering.py`
 - **Features:**
   - Log transformation of Amount
@@ -45,7 +45,7 @@
   - Metrics file (JSON)
   - Run IDs for traceability
 
-#### 4. **Model Comparison & Selection (Best Model Selection)** ✅
+#### 4. **Model Comparison & Selection (Best Model Selection)**
 - **File:** `src/models/comparison.py`
 - **Comparison Method:**
   - Individual metric ranking
@@ -56,7 +56,7 @@
   - Accuracy, Precision, Recall, F1-Score
   - ROC-AUC, PR-AUC
 
-#### 5. **FastAPI Prediction Service (API)** ✅
+#### 5. **FastAPI Prediction Service (API)**
 - **File:** `src/api/service.py`
 - **Endpoints:**
   - `GET /health` - Health check
@@ -131,7 +131,7 @@ python run_pipeline.py
 
 ---
 
-## 📊 Pipeline Execution Flow
+## Pipeline Execution Flow
 
 ```
 Data Ingestion (existing)
@@ -207,13 +207,13 @@ Root/
 - ✅ `models/model_info.json` - Selected model info
 
 **Reports:**
-- ✅ `data/validated/feature_consistency_report.json`
-- ✅ `models/model_comparison_report.json`
+- data/validated/feature_consistency_report.json
+- models/model_comparison_report.json
 
 **API:**
-- ✅ Running on `http://0.0.0.0:8000`
-- ✅ Docs at `http://localhost:8000/docs`
-- ✅ Ready for predictions
+- Running on http://0.0.0.0:8000
+- Docs at http://localhost:8000/docs
+- Ready for predictions
 
 ---
 
@@ -281,11 +281,11 @@ All models evaluated on:
 
 ### Test Coverage
 ```
-✅ Feature Engineering (4 tests)
-✅ Feature Consistency (4 tests)
-✅ Model Training (2 tests)
-✅ Model Comparison (4 tests)
-✅ End-to-End Integration (1 test)
+Feature Engineering (4 tests)
+Feature Consistency (4 tests)
+Model Training (2 tests)
+Model Comparison (4 tests)
+End-to-End Integration (1 test)
 Total: 15+ test cases
 ```
 

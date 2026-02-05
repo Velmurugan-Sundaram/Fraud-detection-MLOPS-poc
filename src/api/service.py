@@ -112,7 +112,7 @@ class PredictionAPI:
         # Setup routes
         self.setup_routes()
         
-        logger.info("✅ Prediction API initialized successfully")
+        logger.info("Prediction API initialized successfully")
     
     def load_model(self):
         """Load the trained model"""
@@ -134,7 +134,7 @@ class PredictionAPI:
                     info = json.load(f)
                     self.model_name = info.get('model_name', 'Unknown')
             
-            logger.info(f"✅ Model loaded: {self.model_name}")
+            logger.info(f"Model loaded: {self.model_name}")
         except Exception as e:
             logger.error(f"Failed to load model: {e}")
             raise

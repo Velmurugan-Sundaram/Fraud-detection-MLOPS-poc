@@ -121,9 +121,9 @@ jobs:
               with open('src/config/config.yaml', 'r') as f:
                   config = yaml.safe_load(f)
               
-              print('✅ Data ingestion pipeline validated')
-              print('✅ Schema validation working')
-              print('✅ Data pipeline configuration valid')
+              print('Data ingestion pipeline validated')
+              print('Schema validation working')
+              print('Data pipeline configuration valid')
           except Exception as e:
               print(f'❌ Data pipeline validation failed: {e}')
               raise

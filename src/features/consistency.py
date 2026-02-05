@@ -102,7 +102,7 @@ class FeatureConsistencyChecker:
         logger.info(f"  Original rows: {len(df_original)}, Engineered rows: {len(df_engineered)}")
         logger.info(f"  Original columns: {len(original_cols)}, Engineered columns: {len(engineered_cols)}")
         logger.info(f"  New features created: {len(new_cols)}")
-        logger.info(f"  Parity valid: {report['parity_valid']} ✅" if report['parity_valid'] else f"  Parity valid: {report['parity_valid']} ❌")
+        logger.info(f"  Parity valid: {report['parity_valid']}" if report['parity_valid'] else f"  Parity valid: {report['parity_valid']}")
         
         if report['issues']:
             for issue in report['issues']:
@@ -197,7 +197,7 @@ class FeatureConsistencyChecker:
         logger.info(f"  No data leakage: {report['checks']['no_data_leakage']}")
         logger.info(f"  Class balance (Train): {train_positive_ratio:.2%}")
         logger.info(f"  Class balance (Test): {test_positive_ratio:.2%}")
-        logger.info(f"  Consistent: {report['consistent']} ✅" if report['consistent'] else f"  Consistent: {report['consistent']} ❌")
+        logger.info(f"  Consistent: {report['consistent']}" if report['consistent'] else f"  Consistent: {report['consistent']}")
         
         if report['issues']:
             for issue in report['issues']:
@@ -260,7 +260,7 @@ class FeatureConsistencyChecker:
         
         logger.info(f"  Features checked: {len(report['statistics'])}")
         logger.info(f"  Distribution shifts detected: {len(report['issues'])}")
-        logger.info(f"  Distributions OK: {report['distributions_ok']} ✅" if report['distributions_ok'] else f"  Distributions OK: {report['distributions_ok']} ❌")
+        logger.info(f"  Distributions OK: {report['distributions_ok']}" if report['distributions_ok'] else f"  Distributions OK: {report['distributions_ok']}")
         
         if report['issues']:
             for issue in report['issues']:
@@ -280,4 +280,4 @@ class FeatureConsistencyChecker:
         with open(output_path, 'w') as f:
             json.dump(report, f, indent=2, default=str)
         
-        logger.info(f"✅ Consistency report saved to {output_path}")
+        logger.info(f"Consistency report saved to {output_path}")
