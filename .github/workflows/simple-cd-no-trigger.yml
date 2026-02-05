@@ -1,0 +1,13 @@
+name: Simple CD Workflow No Trigger
+
+on:
+  push:
+    branches:
+      - Mangesh_m1
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test
+        run: echo "Simple CD workflow without trigger working"
