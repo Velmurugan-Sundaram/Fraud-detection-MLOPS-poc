@@ -29,5 +29,10 @@ echo "-----------------------------------"
 ./venv/bin/python src/model_training.py
 
 echo "-----------------------------------"
+echo "Step 6: Model Monitoring"
+echo "-----------------------------------"
+./venv/bin/python src/model_monitoring.py
+
+echo "-----------------------------------"
 echo "Pipeline Completed Successfully!"
 echo "-----------------------------------"
