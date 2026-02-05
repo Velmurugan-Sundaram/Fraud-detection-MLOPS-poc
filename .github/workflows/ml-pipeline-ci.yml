@@ -21,12 +21,32 @@ jobs:
       # Step 1: Checkout code
       - name: Checkout Repository
         uses: actions/checkout@v4
-        with:
-          lfs: true
       
-      # Step 1b: Pull LFS Files
-      - name: Pull LFS Files
-        run: git lfs pull
+      # Step 1b: Download dataset (alternative to LFS)
+      - name: Download Dataset
+        run: |
+          # Check if dataset exists (from LFS or local)
+          if [ -f "dataset/creditcard.csv" ]; then
+            echo "Dataset found locally: $(ls -lh dataset/creditcard.csv)"
+          else
+            echo "Dataset not found locally, downloading from GitHub Releases..."
+            
+            # Download from GitHub Releases (free alternative to LFS)
+            # You need to upload creditcard.csv as a release asset first
+            # Create a release named "dataset" and upload creditcard.csv as an asset
+            DATASET_URL="https://github.com/${{ github.repository }}/releases/download/dataset/creditcard.csv"
+            
+            echo "Downloading dataset from: $DATASET_URL"
+            curl -L -o dataset/creditcard.csv "$DATASET_URL"
+            
+            if [ $? -eq 0 ]; then
+              echo "Dataset downloaded successfully: $(ls -lh dataset/creditcard.csv)"
+            else
+              echo "ERROR: Failed to download dataset"
+              echo "Please upload creditcard.csv as a release asset named 'dataset'"
+              exit 1
+            fi
+          fi
       
       # Step 2: Set up Python environment
       - name: Set up Python ${{ env.PYTHON_VERSION }}
@@ -72,12 +92,15 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-        with:
-          lfs: true
       
-      - name: Pull LFS Files
+      - name: Download Dataset (if needed)
         run: |
-          git lfs pull
+          if [ ! -f "dataset/creditcard.csv" ]; then
+            echo "Dataset not found, downloading from GitHub Releases..."
+            DATASET_URL="https://github.com/${{ github.repository }}/releases/download/dataset/creditcard.csv"
+            curl -L -o dataset/creditcard.csv "$DATASET_URL"
+            echo "Dataset downloaded: $(ls -lh dataset/creditcard.csv)"
+          fi
       
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -145,11 +168,15 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-        with:
-          lfs: true
       
-      - name: Pull LFS Files
-        run: git lfs pull
+      - name: Download Dataset (if needed)
+        run: |
+          if [ ! -f "dataset/creditcard.csv" ]; then
+            echo "Dataset not found, downloading from GitHub Releases..."
+            DATASET_URL="https://github.com/${{ github.repository }}/releases/download/dataset/creditcard.csv"
+            curl -L -o dataset/creditcard.csv "$DATASET_URL"
+            echo "Dataset downloaded: $(ls -lh dataset/creditcard.csv)"
+          fi
       
       - name: Download Validated Data
         uses: actions/download-artifact@v4
@@ -208,11 +235,15 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-        with:
-          lfs: true
       
-      - name: Pull LFS Files
-        run: git lfs pull
+      - name: Download Dataset (if needed)
+        run: |
+          if [ ! -f "dataset/creditcard.csv" ]; then
+            echo "Dataset not found, downloading from GitHub Releases..."
+            DATASET_URL="https://github.com/${{ github.repository }}/releases/download/dataset/creditcard.csv"
+            curl -L -o dataset/creditcard.csv "$DATASET_URL"
+            echo "Dataset downloaded: $(ls -lh dataset/creditcard.csv)"
+          fi
       
       - name: Download Validated Data
         uses: actions/download-artifact@v4
@@ -292,11 +323,15 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-        with:
-          lfs: true
       
-      - name: Pull LFS Files
-        run: git lfs pull
+      - name: Download Dataset (if needed)
+        run: |
+          if [ ! -f "dataset/creditcard.csv" ]; then
+            echo "Dataset not found, downloading from GitHub Releases..."
+            DATASET_URL="https://github.com/${{ github.repository }}/releases/download/dataset/creditcard.csv"
+            curl -L -o dataset/creditcard.csv "$DATASET_URL"
+            echo "Dataset downloaded: $(ls -lh dataset/creditcard.csv)"
+          fi
       
       - name: Download Validated Data
         uses: actions/download-artifact@v4
@@ -394,11 +429,15 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-        with:
-          lfs: true
       
-      - name: Pull LFS Files
-        run: git lfs pull
+      - name: Download Dataset (if needed)
+        run: |
+          if [ ! -f "dataset/creditcard.csv" ]; then
+            echo "Dataset not found, downloading from GitHub Releases..."
+            DATASET_URL="https://github.com/${{ github.repository }}/releases/download/dataset/creditcard.csv"
+            curl -L -o dataset/creditcard.csv "$DATASET_URL"
+            echo "Dataset downloaded: $(ls -lh dataset/creditcard.csv)"
+          fi
       
       - name: Download Validated Data
         uses: actions/download-artifact@v4
@@ -545,11 +584,15 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-        with:
-          lfs: true
       
-      - name: Pull LFS Files
-        run: git lfs pull
+      - name: Download Dataset (if needed)
+        run: |
+          if [ ! -f "dataset/creditcard.csv" ]; then
+            echo "Dataset not found, downloading from GitHub Releases..."
+            DATASET_URL="https://github.com/${{ github.repository }}/releases/download/dataset/creditcard.csv"
+            curl -L -o dataset/creditcard.csv "$DATASET_URL"
+            echo "Dataset downloaded: $(ls -lh dataset/creditcard.csv)"
+          fi
       
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -591,11 +634,15 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-        with:
-          lfs: true
       
-      - name: Pull LFS Files
-        run: git lfs pull
+      - name: Download Dataset (if needed)
+        run: |
+          if [ ! -f "dataset/creditcard.csv" ]; then
+            echo "Dataset not found, downloading from GitHub Releases..."
+            DATASET_URL="https://github.com/${{ github.repository }}/releases/download/dataset/creditcard.csv"
+            curl -L -o dataset/creditcard.csv "$DATASET_URL"
+            echo "Dataset downloaded: $(ls -lh dataset/creditcard.csv)"
+          fi
       
       - name: Download All Artifacts
         uses: actions/download-artifact@v4
