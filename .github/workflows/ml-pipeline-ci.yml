@@ -98,11 +98,23 @@ jobs:
       
       - name: Download Dataset (if needed)
         run: |
-          if [ ! -f "dataset/creditcard.csv" ]; then
+          # Create dataset directory
+          mkdir -p dataset
+          
+          # Check if dataset exists (from previous job or local)
+          if [ -f "dataset/creditcard.csv" ]; then
+            echo "Dataset found locally: $(ls -lh dataset/creditcard.csv)"
+          else
             echo "Dataset not found, downloading from GitHub Releases..."
             DATASET_URL="https://github.com/${{ github.repository }}/releases/download/dataset/creditcard.csv"
             curl -L -o dataset/creditcard.csv "$DATASET_URL"
-            echo "Dataset downloaded: $(ls -lh dataset/creditcard.csv)"
+            
+            if [ $? -eq 0 ]; then
+              echo "Dataset downloaded successfully: $(ls -lh dataset/creditcard.csv)"
+            else
+              echo "ERROR: Failed to download dataset"
+              exit 1
+            fi
           fi
       
       - name: Set up Python
@@ -174,11 +186,23 @@ jobs:
       
       - name: Download Dataset (if needed)
         run: |
-          if [ ! -f "dataset/creditcard.csv" ]; then
+          # Create dataset directory
+          mkdir -p dataset
+          
+          # Check if dataset exists
+          if [ -f "dataset/creditcard.csv" ]; then
+            echo "Dataset found locally: $(ls -lh dataset/creditcard.csv)"
+          else
             echo "Dataset not found, downloading from GitHub Releases..."
             DATASET_URL="https://github.com/${{ github.repository }}/releases/download/dataset/creditcard.csv"
             curl -L -o dataset/creditcard.csv "$DATASET_URL"
-            echo "Dataset downloaded: $(ls -lh dataset/creditcard.csv)"
+            
+            if [ $? -eq 0 ]; then
+              echo "Dataset downloaded successfully: $(ls -lh dataset/creditcard.csv)"
+            else
+              echo "ERROR: Failed to download dataset"
+              exit 1
+            fi
           fi
       
       - name: Download Validated Data
@@ -241,11 +265,23 @@ jobs:
       
       - name: Download Dataset (if needed)
         run: |
-          if [ ! -f "dataset/creditcard.csv" ]; then
+          # Create dataset directory
+          mkdir -p dataset
+          
+          # Check if dataset exists
+          if [ -f "dataset/creditcard.csv" ]; then
+            echo "Dataset found locally: $(ls -lh dataset/creditcard.csv)"
+          else
             echo "Dataset not found, downloading from GitHub Releases..."
             DATASET_URL="https://github.com/${{ github.repository }}/releases/download/dataset/creditcard.csv"
             curl -L -o dataset/creditcard.csv "$DATASET_URL"
-            echo "Dataset downloaded: $(ls -lh dataset/creditcard.csv)"
+            
+            if [ $? -eq 0 ]; then
+              echo "Dataset downloaded successfully: $(ls -lh dataset/creditcard.csv)"
+            else
+              echo "ERROR: Failed to download dataset"
+              exit 1
+            fi
           fi
       
       - name: Download Validated Data
@@ -329,11 +365,23 @@ jobs:
       
       - name: Download Dataset (if needed)
         run: |
-          if [ ! -f "dataset/creditcard.csv" ]; then
+          # Create dataset directory
+          mkdir -p dataset
+          
+          # Check if dataset exists
+          if [ -f "dataset/creditcard.csv" ]; then
+            echo "Dataset found locally: $(ls -lh dataset/creditcard.csv)"
+          else
             echo "Dataset not found, downloading from GitHub Releases..."
             DATASET_URL="https://github.com/${{ github.repository }}/releases/download/dataset/creditcard.csv"
             curl -L -o dataset/creditcard.csv "$DATASET_URL"
-            echo "Dataset downloaded: $(ls -lh dataset/creditcard.csv)"
+            
+            if [ $? -eq 0 ]; then
+              echo "Dataset downloaded successfully: $(ls -lh dataset/creditcard.csv)"
+            else
+              echo "ERROR: Failed to download dataset"
+              exit 1
+            fi
           fi
       
       - name: Download Validated Data
@@ -435,11 +483,23 @@ jobs:
       
       - name: Download Dataset (if needed)
         run: |
-          if [ ! -f "dataset/creditcard.csv" ]; then
+          # Create dataset directory
+          mkdir -p dataset
+          
+          # Check if dataset exists
+          if [ -f "dataset/creditcard.csv" ]; then
+            echo "Dataset found locally: $(ls -lh dataset/creditcard.csv)"
+          else
             echo "Dataset not found, downloading from GitHub Releases..."
             DATASET_URL="https://github.com/${{ github.repository }}/releases/download/dataset/creditcard.csv"
             curl -L -o dataset/creditcard.csv "$DATASET_URL"
-            echo "Dataset downloaded: $(ls -lh dataset/creditcard.csv)"
+            
+            if [ $? -eq 0 ]; then
+              echo "Dataset downloaded successfully: $(ls -lh dataset/creditcard.csv)"
+            else
+              echo "ERROR: Failed to download dataset"
+              exit 1
+            fi
           fi
       
       - name: Download Validated Data
@@ -590,11 +650,23 @@ jobs:
       
       - name: Download Dataset (if needed)
         run: |
-          if [ ! -f "dataset/creditcard.csv" ]; then
+          # Create dataset directory
+          mkdir -p dataset
+          
+          # Check if dataset exists
+          if [ -f "dataset/creditcard.csv" ]; then
+            echo "Dataset found locally: $(ls -lh dataset/creditcard.csv)"
+          else
             echo "Dataset not found, downloading from GitHub Releases..."
             DATASET_URL="https://github.com/${{ github.repository }}/releases/download/dataset/creditcard.csv"
             curl -L -o dataset/creditcard.csv "$DATASET_URL"
-            echo "Dataset downloaded: $(ls -lh dataset/creditcard.csv)"
+            
+            if [ $? -eq 0 ]; then
+              echo "Dataset downloaded successfully: $(ls -lh dataset/creditcard.csv)"
+            else
+              echo "ERROR: Failed to download dataset"
+              exit 1
+            fi
           fi
       
       - name: Set up Python
@@ -640,11 +712,23 @@ jobs:
       
       - name: Download Dataset (if needed)
         run: |
-          if [ ! -f "dataset/creditcard.csv" ]; then
+          # Create dataset directory
+          mkdir -p dataset
+          
+          # Check if dataset exists
+          if [ -f "dataset/creditcard.csv" ]; then
+            echo "Dataset found locally: $(ls -lh dataset/creditcard.csv)"
+          else
             echo "Dataset not found, downloading from GitHub Releases..."
             DATASET_URL="https://github.com/${{ github.repository }}/releases/download/dataset/creditcard.csv"
             curl -L -o dataset/creditcard.csv "$DATASET_URL"
-            echo "Dataset downloaded: $(ls -lh dataset/creditcard.csv)"
+            
+            if [ $? -eq 0 ]; then
+              echo "Dataset downloaded successfully: $(ls -lh dataset/creditcard.csv)"
+            else
+              echo "ERROR: Failed to download dataset"
+              exit 1
+            fi
           fi
       
       - name: Download All Artifacts
