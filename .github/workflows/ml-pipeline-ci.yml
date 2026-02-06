@@ -216,7 +216,7 @@ jobs:
             
             # Merge chunks into single dataset file
             echo "Merging dataset chunks..."
-            python merge_dataset.py dataset "creditcard_part_*.csv"
+            python simple_merge.py dataset "creditcard_part_*.csv" "creditcard.csv"
             
             if [ $? -eq 0 ]; then
               echo "Dataset merged successfully: $(ls -lh dataset/creditcard.csv | awk '{print $5}')"
