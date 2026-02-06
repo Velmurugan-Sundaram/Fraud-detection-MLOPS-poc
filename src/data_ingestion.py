@@ -91,7 +91,9 @@ def main():
             print(f"Failed to log to MLflow: {e}")
         
     except Exception as e:
-        print(f"Ingestion failed. Check logs for details.")
+        import traceback
+        print(f"Ingestion failed. Error: {e}")
+        traceback.print_exc()
 
 if __name__ == "__main__":
     main()
