@@ -111,6 +111,23 @@ jobs:
             # Chunks are named: creditcard_part_001.csv, creditcard_part_002.csv, etc.
             CHUNK_COUNT=8  # Adjust based on actual number of chunks needed
             
+            echo "=== DEBUG: Checking if chunks exist on GitHub ==="
+            for i in $(seq -w 1 $CHUNK_COUNT); do
+              CHUNK_URL="https://github.com/${{ github.repository }}/releases/download/dataset/creditcard_part_${i}.csv"
+              echo "Testing chunk ${i}: $CHUNK_URL"
+              
+              # Test if the URL exists
+              HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" "$CHUNK_URL")
+              echo "  HTTP Response Code: $HTTP_CODE"
+              
+              if [ "$HTTP_CODE" = "200" ]; then
+                echo "  ✓ Chunk ${i} exists"
+              else
+                echo "  ✗ Chunk ${i} not found (HTTP $HTTP_CODE)"
+              fi
+            done
+            
+            echo "=== DEBUG: Downloading chunks ==="
             for i in $(seq -w 1 $CHUNK_COUNT); do
               CHUNK_URL="https://github.com/${{ github.repository }}/releases/download/dataset/creditcard_part_${i}.csv"
               CHUNK_FILE="dataset/creditcard_part_${i}.csv"
@@ -119,19 +136,59 @@ jobs:
               curl -L -o "$CHUNK_FILE" "$CHUNK_URL"
               
               if [ $? -eq 0 ]; then
-                echo "  ✓ Chunk ${i} downloaded: $(ls -lh $CHUNK_FILE | awk '{print $5}')"
+                if [ -f "$CHUNK_FILE" ]; then
+                  file_size=$(ls -lh "$CHUNK_FILE" | awk '{print $5}')
+                  echo "  ✓ Chunk ${i} downloaded: $file_size"
+                  
+                  # Check if file has content
+                  line_count=$(wc -l < "$CHUNK_FILE")
+                  echo "    Lines in chunk: $line_count"
+                  
+                  if [ "$line_count" -lt 2 ]; then
+                    echo "    ⚠️  Warning: Chunk has very few lines!"
+                  fi
+                else
+                  echo "  ✗ Chunk ${i} download failed - file not created"
+                  exit 1
+                fi
               else
                 echo "  ✗ Failed to download chunk ${i}"
                 exit 1
               fi
             done
             
+            # Check all chunks were downloaded
+            echo "=== DEBUG: Checking downloaded chunks ==="
+            downloaded_chunks=$(ls -1 dataset/creditcard_part_*.csv 2>/dev/null | wc -l)
+            echo "Downloaded chunks: $downloaded_chunks"
+            
+            if [ "$downloaded_chunks" -ne "$CHUNK_COUNT" ]; then
+              echo "ERROR: Expected $CHUNK_COUNT chunks, but only $downloaded_chunks were downloaded"
+              ls -lh dataset/creditcard_part_*.csv
+              exit 1
+            fi
+            
             # Merge chunks into single dataset file
-            echo "Merging dataset chunks..."
+            echo "=== DEBUG: Merging dataset chunks ==="
             python simple_merge.py dataset "creditcard_part_*.csv" "creditcard.csv"
             
             if [ $? -eq 0 ]; then
-              echo "Dataset merged successfully: $(ls -lh dataset/creditcard.csv | awk '{print $5}')"
+              if [ -f "dataset/creditcard.csv" ]; then
+                final_size=$(ls -lh dataset/creditcard.csv | awk '{print $5}')
+                echo "Dataset merged successfully: $final_size"
+                
+                # Check merged file content
+                merged_lines=$(wc -l < dataset/creditcard.csv)
+                echo "Total lines in merged file: $merged_lines"
+                
+                if [ "$merged_lines" -lt 1000 ]; then
+                  echo "⚠️  Warning: Merged file has very few lines!"
+                  head -5 dataset/creditcard.csv
+                fi
+              else
+                echo "ERROR: Merged file was not created"
+                exit 1
+              fi
             else
               echo "ERROR: Failed to merge dataset chunks"
               exit 1
