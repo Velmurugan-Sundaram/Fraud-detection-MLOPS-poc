@@ -22,28 +22,15 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
       
-      # Step 1b: Download dataset with fallback strategy
-      - name: Download Dataset (GitHub Releases with Fallback)
+      # Step 1b: Download dataset - Simple approach
+      - name: Download Dataset (Simple)
         run: |
-          echo "=== DATASET AVAILABILITY CHECK ==="
+          echo "=== DATASET SETUP ==="
           
           # Create dataset directory
           mkdir -p dataset
           
-          # Strategy 1: Check if dataset exists locally (from git)
-          if [ -f "dataset/creditcard.csv" ]; then
-            echo "✓ Dataset found locally: $(ls -lh dataset/creditcard.csv | awk '{print $5}')"
-            line_count=$(wc -l < dataset/creditcard.csv)
-            echo "  Lines: $line_count"
-            if [ "$line_count" -lt 1000 ]; then
-              echo "⚠️  Warning: Local dataset appears small, checking chunks..."
-            else
-              echo "✓ Local dataset is valid, using it"
-              exit 0
-            fi
-          fi
-          
-          # Strategy 2: Check if chunks exist locally (from git)
+          # Strategy 1: Use local chunks if available
           if [ -d "dataset_chunks" ] && ls dataset_chunks/creditcard_part_*.csv 1> /dev/null 2>&1; then
             echo "✓ Found local chunks, merging..."
             python simple_merge.py dataset_chunks "creditcard_part_*.csv" "creditcard.csv"
@@ -55,8 +42,8 @@ jobs:
             fi
           fi
           
-          # Strategy 3: Download from GitHub Releases
-          echo "Attempting GitHub Releases download..."
+          # Strategy 2: Download from GitHub Releases
+          echo "Downloading from GitHub Releases..."
           CHUNK_COUNT=8
           SUCCESS_COUNT=0
           
@@ -92,16 +79,7 @@ jobs:
               echo "✗ Failed to merge downloaded chunks"
             fi
           else
-            echo "✗ Only $SUCCESS_COUNT chunks downloaded, not enough for merge"
-          fi
-          
-          # Final check
-          if [ -f "dataset/creditcard.csv" ]; then
-            echo "✓ Dataset available: $(ls -lh dataset/creditcard.csv | awk '{print $5}')"
-          else
-            echo "✗ ERROR: No dataset available from any source!"
-            echo "Available files in dataset/:"
-            ls -la dataset/ 2>/dev/null || echo "  (directory empty or missing)"
+            echo "✗ ERROR: Only $SUCCESS_COUNT chunks downloaded, need all 8"
             exit 1
           fi
       
@@ -150,27 +128,14 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
       
-      - name: Download Dataset (GitHub Releases with Fallback)
+      - name: Download Dataset (Simple)
         run: |
-          echo "=== DATASET AVAILABILITY CHECK ==="
+          echo "=== DATASET SETUP ==="
           
           # Create dataset directory
           mkdir -p dataset
           
-          # Strategy 1: Check if dataset exists locally (from git)
-          if [ -f "dataset/creditcard.csv" ]; then
-            echo "✓ Dataset found locally: $(ls -lh dataset/creditcard.csv | awk '{print $5}')"
-            line_count=$(wc -l < dataset/creditcard.csv)
-            echo "  Lines: $line_count"
-            if [ "$line_count" -lt 1000 ]; then
-              echo "⚠️  Warning: Local dataset appears small, checking chunks..."
-            else
-              echo "✓ Local dataset is valid, using it"
-              exit 0
-            fi
-          fi
-          
-          # Strategy 2: Check if chunks exist locally (from git)
+          # Strategy 1: Use local chunks if available
           if [ -d "dataset_chunks" ] && ls dataset_chunks/creditcard_part_*.csv 1> /dev/null 2>&1; then
             echo "✓ Found local chunks, merging..."
             python simple_merge.py dataset_chunks "creditcard_part_*.csv" "creditcard.csv"
@@ -182,8 +147,8 @@ jobs:
             fi
           fi
           
-          # Strategy 3: Download from GitHub Releases
-          echo "Attempting GitHub Releases download..."
+          # Strategy 2: Download from GitHub Releases
+          echo "Downloading from GitHub Releases..."
           CHUNK_COUNT=8
           SUCCESS_COUNT=0
           
@@ -219,16 +184,7 @@ jobs:
               echo "✗ Failed to merge downloaded chunks"
             fi
           else
-            echo "✗ Only $SUCCESS_COUNT chunks downloaded, not enough for merge"
-          fi
-          
-          # Final check
-          if [ -f "dataset/creditcard.csv" ]; then
-            echo "✓ Dataset available: $(ls -lh dataset/creditcard.csv | awk '{print $5}')"
-          else
-            echo "✗ ERROR: No dataset available from any source!"
-            echo "Available files in dataset/:"
-            ls -la dataset/ 2>/dev/null || echo "  (directory empty or missing)"
+            echo "✗ ERROR: Only $SUCCESS_COUNT chunks downloaded, need all 8"
             exit 1
           fi
       
@@ -299,27 +255,14 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
       
-      - name: Download Dataset (GitHub Releases with Fallback)
+      - name: Download Dataset (Simple)
         run: |
-          echo "=== DATASET AVAILABILITY CHECK ==="
+          echo "=== DATASET SETUP ==="
           
           # Create dataset directory
           mkdir -p dataset
           
-          # Strategy 1: Check if dataset exists locally (from git)
-          if [ -f "dataset/creditcard.csv" ]; then
-            echo "✓ Dataset found locally: $(ls -lh dataset/creditcard.csv | awk '{print $5}')"
-            line_count=$(wc -l < dataset/creditcard.csv)
-            echo "  Lines: $line_count"
-            if [ "$line_count" -lt 1000 ]; then
-              echo "⚠️  Warning: Local dataset appears small, checking chunks..."
-            else
-              echo "✓ Local dataset is valid, using it"
-              exit 0
-            fi
-          fi
-          
-          # Strategy 2: Check if chunks exist locally (from git)
+          # Strategy 1: Use local chunks if available
           if [ -d "dataset_chunks" ] && ls dataset_chunks/creditcard_part_*.csv 1> /dev/null 2>&1; then
             echo "✓ Found local chunks, merging..."
             python simple_merge.py dataset_chunks "creditcard_part_*.csv" "creditcard.csv"
@@ -331,8 +274,8 @@ jobs:
             fi
           fi
           
-          # Strategy 3: Download from GitHub Releases
-          echo "Attempting GitHub Releases download..."
+          # Strategy 2: Download from GitHub Releases
+          echo "Downloading from GitHub Releases..."
           CHUNK_COUNT=8
           SUCCESS_COUNT=0
           
@@ -368,16 +311,7 @@ jobs:
               echo "✗ Failed to merge downloaded chunks"
             fi
           else
-            echo "✗ Only $SUCCESS_COUNT chunks downloaded, not enough for merge"
-          fi
-          
-          # Final check
-          if [ -f "dataset/creditcard.csv" ]; then
-            echo "✓ Dataset available: $(ls -lh dataset/creditcard.csv | awk '{print $5}')"
-          else
-            echo "✗ ERROR: No dataset available from any source!"
-            echo "Available files in dataset/:"
-            ls -la dataset/ 2>/dev/null || echo "  (directory empty or missing)"
+            echo "✗ ERROR: Only $SUCCESS_COUNT chunks downloaded, need all 8"
             exit 1
           fi
       
@@ -439,27 +373,14 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
       
-      - name: Download Dataset (GitHub Releases with Fallback)
+      - name: Download Dataset (Simple)
         run: |
-          echo "=== DATASET AVAILABILITY CHECK ==="
+          echo "=== DATASET SETUP ==="
           
           # Create dataset directory
           mkdir -p dataset
           
-          # Strategy 1: Check if dataset exists locally (from git)
-          if [ -f "dataset/creditcard.csv" ]; then
-            echo "✓ Dataset found locally: $(ls -lh dataset/creditcard.csv | awk '{print $5}')"
-            line_count=$(wc -l < dataset/creditcard.csv)
-            echo "  Lines: $line_count"
-            if [ "$line_count" -lt 1000 ]; then
-              echo "⚠️  Warning: Local dataset appears small, checking chunks..."
-            else
-              echo "✓ Local dataset is valid, using it"
-              exit 0
-            fi
-          fi
-          
-          # Strategy 2: Check if chunks exist locally (from git)
+          # Strategy 1: Use local chunks if available
           if [ -d "dataset_chunks" ] && ls dataset_chunks/creditcard_part_*.csv 1> /dev/null 2>&1; then
             echo "✓ Found local chunks, merging..."
             python simple_merge.py dataset_chunks "creditcard_part_*.csv" "creditcard.csv"
@@ -471,8 +392,8 @@ jobs:
             fi
           fi
           
-          # Strategy 3: Download from GitHub Releases
-          echo "Attempting GitHub Releases download..."
+          # Strategy 2: Download from GitHub Releases
+          echo "Downloading from GitHub Releases..."
           CHUNK_COUNT=8
           SUCCESS_COUNT=0
           
@@ -508,16 +429,7 @@ jobs:
               echo "✗ Failed to merge downloaded chunks"
             fi
           else
-            echo "✗ Only $SUCCESS_COUNT chunks downloaded, not enough for merge"
-          fi
-          
-          # Final check
-          if [ -f "dataset/creditcard.csv" ]; then
-            echo "✓ Dataset available: $(ls -lh dataset/creditcard.csv | awk '{print $5}')"
-          else
-            echo "✗ ERROR: No dataset available from any source!"
-            echo "Available files in dataset/:"
-            ls -la dataset/ 2>/dev/null || echo "  (directory empty or missing)"
+            echo "✗ ERROR: Only $SUCCESS_COUNT chunks downloaded, need all 8"
             exit 1
           fi
       
@@ -600,27 +512,14 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
       
-      - name: Download Dataset (GitHub Releases with Fallback)
+      - name: Download Dataset (Simple)
         run: |
-          echo "=== DATASET AVAILABILITY CHECK ==="
+          echo "=== DATASET SETUP ==="
           
           # Create dataset directory
           mkdir -p dataset
           
-          # Strategy 1: Check if dataset exists locally (from git)
-          if [ -f "dataset/creditcard.csv" ]; then
-            echo "✓ Dataset found locally: $(ls -lh dataset/creditcard.csv | awk '{print $5}')"
-            line_count=$(wc -l < dataset/creditcard.csv)
-            echo "  Lines: $line_count"
-            if [ "$line_count" -lt 1000 ]; then
-              echo "⚠️  Warning: Local dataset appears small, checking chunks..."
-            else
-              echo "✓ Local dataset is valid, using it"
-              exit 0
-            fi
-          fi
-          
-          # Strategy 2: Check if chunks exist locally (from git)
+          # Strategy 1: Use local chunks if available
           if [ -d "dataset_chunks" ] && ls dataset_chunks/creditcard_part_*.csv 1> /dev/null 2>&1; then
             echo "✓ Found local chunks, merging..."
             python simple_merge.py dataset_chunks "creditcard_part_*.csv" "creditcard.csv"
@@ -632,8 +531,8 @@ jobs:
             fi
           fi
           
-          # Strategy 3: Download from GitHub Releases
-          echo "Attempting GitHub Releases download..."
+          # Strategy 2: Download from GitHub Releases
+          echo "Downloading from GitHub Releases..."
           CHUNK_COUNT=8
           SUCCESS_COUNT=0
           
@@ -669,16 +568,7 @@ jobs:
               echo "✗ Failed to merge downloaded chunks"
             fi
           else
-            echo "✗ Only $SUCCESS_COUNT chunks downloaded, not enough for merge"
-          fi
-          
-          # Final check
-          if [ -f "dataset/creditcard.csv" ]; then
-            echo "✓ Dataset available: $(ls -lh dataset/creditcard.csv | awk '{print $5}')"
-          else
-            echo "✗ ERROR: No dataset available from any source!"
-            echo "Available files in dataset/:"
-            ls -la dataset/ 2>/dev/null || echo "  (directory empty or missing)"
+            echo "✗ ERROR: Only $SUCCESS_COUNT chunks downloaded, need all 8"
             exit 1
           fi
       
@@ -779,27 +669,14 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
       
-      - name: Download Dataset (GitHub Releases with Fallback)
+      - name: Download Dataset (Simple)
         run: |
-          echo "=== DATASET AVAILABILITY CHECK ==="
+          echo "=== DATASET SETUP ==="
           
           # Create dataset directory
           mkdir -p dataset
           
-          # Strategy 1: Check if dataset exists locally (from git)
-          if [ -f "dataset/creditcard.csv" ]; then
-            echo "✓ Dataset found locally: $(ls -lh dataset/creditcard.csv | awk '{print $5}')"
-            line_count=$(wc -l < dataset/creditcard.csv)
-            echo "  Lines: $line_count"
-            if [ "$line_count" -lt 1000 ]; then
-              echo "⚠️  Warning: Local dataset appears small, checking chunks..."
-            else
-              echo "✓ Local dataset is valid, using it"
-              exit 0
-            fi
-          fi
-          
-          # Strategy 2: Check if chunks exist locally (from git)
+          # Strategy 1: Use local chunks if available
           if [ -d "dataset_chunks" ] && ls dataset_chunks/creditcard_part_*.csv 1> /dev/null 2>&1; then
             echo "✓ Found local chunks, merging..."
             python simple_merge.py dataset_chunks "creditcard_part_*.csv" "creditcard.csv"
@@ -811,8 +688,8 @@ jobs:
             fi
           fi
           
-          # Strategy 3: Download from GitHub Releases
-          echo "Attempting GitHub Releases download..."
+          # Strategy 2: Download from GitHub Releases
+          echo "Downloading from GitHub Releases..."
           CHUNK_COUNT=8
           SUCCESS_COUNT=0
           
@@ -848,16 +725,7 @@ jobs:
               echo "✗ Failed to merge downloaded chunks"
             fi
           else
-            echo "✗ Only $SUCCESS_COUNT chunks downloaded, not enough for merge"
-          fi
-          
-          # Final check
-          if [ -f "dataset/creditcard.csv" ]; then
-            echo "✓ Dataset available: $(ls -lh dataset/creditcard.csv | awk '{print $5}')"
-          else
-            echo "✗ ERROR: No dataset available from any source!"
-            echo "Available files in dataset/:"
-            ls -la dataset/ 2>/dev/null || echo "  (directory empty or missing)"
+            echo "✗ ERROR: Only $SUCCESS_COUNT chunks downloaded, need all 8"
             exit 1
           fi
       
@@ -1001,27 +869,14 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
       
-      - name: Download Dataset (GitHub Releases with Fallback)
+      - name: Download Dataset (Simple)
         run: |
-          echo "=== DATASET AVAILABILITY CHECK ==="
+          echo "=== DATASET SETUP ==="
           
           # Create dataset directory
           mkdir -p dataset
           
-          # Strategy 1: Check if dataset exists locally (from git)
-          if [ -f "dataset/creditcard.csv" ]; then
-            echo "✓ Dataset found locally: $(ls -lh dataset/creditcard.csv | awk '{print $5}')"
-            line_count=$(wc -l < dataset/creditcard.csv)
-            echo "  Lines: $line_count"
-            if [ "$line_count" -lt 1000 ]; then
-              echo "⚠️  Warning: Local dataset appears small, checking chunks..."
-            else
-              echo "✓ Local dataset is valid, using it"
-              exit 0
-            fi
-          fi
-          
-          # Strategy 2: Check if chunks exist locally (from git)
+          # Strategy 1: Use local chunks if available
           if [ -d "dataset_chunks" ] && ls dataset_chunks/creditcard_part_*.csv 1> /dev/null 2>&1; then
             echo "✓ Found local chunks, merging..."
             python simple_merge.py dataset_chunks "creditcard_part_*.csv" "creditcard.csv"
@@ -1033,8 +888,8 @@ jobs:
             fi
           fi
           
-          # Strategy 3: Download from GitHub Releases
-          echo "Attempting GitHub Releases download..."
+          # Strategy 2: Download from GitHub Releases
+          echo "Downloading from GitHub Releases..."
           CHUNK_COUNT=8
           SUCCESS_COUNT=0
           
@@ -1070,16 +925,7 @@ jobs:
               echo "✗ Failed to merge downloaded chunks"
             fi
           else
-            echo "✗ Only $SUCCESS_COUNT chunks downloaded, not enough for merge"
-          fi
-          
-          # Final check
-          if [ -f "dataset/creditcard.csv" ]; then
-            echo "✓ Dataset available: $(ls -lh dataset/creditcard.csv | awk '{print $5}')"
-          else
-            echo "✗ ERROR: No dataset available from any source!"
-            echo "Available files in dataset/:"
-            ls -la dataset/ 2>/dev/null || echo "  (directory empty or missing)"
+            echo "✗ ERROR: Only $SUCCESS_COUNT chunks downloaded, need all 8"
             exit 1
           fi
       
@@ -1124,27 +970,14 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
       
-      - name: Download Dataset (GitHub Releases with Fallback)
+      - name: Download Dataset (Simple)
         run: |
-          echo "=== DATASET AVAILABILITY CHECK ==="
+          echo "=== DATASET SETUP ==="
           
           # Create dataset directory
           mkdir -p dataset
           
-          # Strategy 1: Check if dataset exists locally (from git)
-          if [ -f "dataset/creditcard.csv" ]; then
-            echo "✓ Dataset found locally: $(ls -lh dataset/creditcard.csv | awk '{print $5}')"
-            line_count=$(wc -l < dataset/creditcard.csv)
-            echo "  Lines: $line_count"
-            if [ "$line_count" -lt 1000 ]; then
-              echo "⚠️  Warning: Local dataset appears small, checking chunks..."
-            else
-              echo "✓ Local dataset is valid, using it"
-              exit 0
-            fi
-          fi
-          
-          # Strategy 2: Check if chunks exist locally (from git)
+          # Strategy 1: Use local chunks if available
           if [ -d "dataset_chunks" ] && ls dataset_chunks/creditcard_part_*.csv 1> /dev/null 2>&1; then
             echo "✓ Found local chunks, merging..."
             python simple_merge.py dataset_chunks "creditcard_part_*.csv" "creditcard.csv"
@@ -1156,8 +989,8 @@ jobs:
             fi
           fi
           
-          # Strategy 3: Download from GitHub Releases
-          echo "Attempting GitHub Releases download..."
+          # Strategy 2: Download from GitHub Releases
+          echo "Downloading from GitHub Releases..."
           CHUNK_COUNT=8
           SUCCESS_COUNT=0
           
@@ -1193,16 +1026,7 @@ jobs:
               echo "✗ Failed to merge downloaded chunks"
             fi
           else
-            echo "✗ Only $SUCCESS_COUNT chunks downloaded, not enough for merge"
-          fi
-          
-          # Final check
-          if [ -f "dataset/creditcard.csv" ]; then
-            echo "✓ Dataset available: $(ls -lh dataset/creditcard.csv | awk '{print $5}')"
-          else
-            echo "✗ ERROR: No dataset available from any source!"
-            echo "Available files in dataset/:"
-            ls -la dataset/ 2>/dev/null || echo "  (directory empty or missing)"
+            echo "✗ ERROR: Only $SUCCESS_COUNT chunks downloaded, need all 8"
             exit 1
           fi
       
@@ -1213,7 +1037,7 @@ jobs:
         run: |
           echo "========================================" >> ci_report.txt
           echo "ML PIPELINE CI/CD EXECUTION REPORT" >> ci_report.txt
-          echo "GitHub Actions Workflow (Robust Fallback)" >> ci_report.txt
+          echo "GitHub Actions Workflow (Simple)" >> ci_report.txt
           echo "========================================" >> ci_report.txt
           echo "" >> ci_report.txt
           echo "Repository: ${{ github.repository }}" >> ci_report.txt
@@ -1232,11 +1056,10 @@ jobs:
           echo "  7.  FastAPI Service Validation" >> ci_report.txt
           echo "  8.  Integration Tests" >> ci_report.txt
           echo "" >> ci_report.txt
-          echo "Dataset Download Strategy:"
-          echo "  1. Check local dataset file (from git)"
-          echo "  2. Merge local chunks if available (from git)"
-          echo "  3. Download from GitHub Releases (8 chunks)"
-          echo "  4. Robust error handling and validation"
+          echo "Dataset Strategy:"
+          echo "  1. Use local chunks (dataset_chunks/) if available" >> ci_report.txt
+          echo "  2. Download from GitHub Releases if chunks not available" >> ci_report.txt
+          echo "  3. Merge chunks into dataset/creditcard.csv" >> ci_report.txt
           echo "" >> ci_report.txt
           echo "Workflow completed at: $(date)" >> ci_report.txt
           cat ci_report.txt
@@ -1250,7 +1073,7 @@ jobs:
       - name: Print Summary
         run: |
           echo "========================================"
-          echo "ML PIPELINE CI/CD COMPLETED (ROBUST FALLBACK VERSION)"
+          echo "ML PIPELINE CI/CD COMPLETED (SIMPLE VERSION)"
           echo ""
           echo "All pipeline stages executed successfully!"
           echo ""
@@ -1264,11 +1087,10 @@ jobs:
           echo "  - FastAPI Service"
           echo "  - Integration Tests"
           echo ""
-          echo "Dataset Download Strategy:"
-          echo "  1. Check local dataset file (from git)"
-          echo "  2. Merge local chunks if available (from git)"
-          echo "  3. Download from GitHub Releases (8 chunks)"
-          echo "  4. Robust error handling and validation"
+          echo "Dataset Strategy:"
+          echo "  1. Use local chunks (dataset_chunks/) if available"
+          echo "  2. Download from GitHub Releases if chunks not available"
+          echo "  3. Merge chunks into dataset/creditcard.csv"
           echo ""
           echo "Next: Deploy or merge to main branch"
           echo "========================================"
