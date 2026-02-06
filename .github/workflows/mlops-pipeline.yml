@@ -92,6 +92,10 @@ jobs:
         
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
+
+    - name: Lowercase Repo Owner
+      run: |
+        echo "REPO_OWNER=$(echo ${{ github.repository_owner }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
       
     - name: Build and Push Pipeline
       uses: docker/build-push-action@v5
@@ -99,7 +103,7 @@ jobs:
         context: .
         target: fraud-detection-pipeline
         push: true
-        tags: ghcr.io/${{ github.repository_owner }}/fraud-detection-pipeline:latest
+        tags: ghcr.io/${{ env.REPO_OWNER }}/fraud-detection-pipeline:latest
         
     - name: Build and Push Dashboard
       uses: docker/build-push-action@v5
@@ -107,4 +111,4 @@ jobs:
         context: .
         target: dashboard
         push: true
-        tags: ghcr.io/${{ github.repository_owner }}/fraud-detection-dashboard:latest
+        tags: ghcr.io/${{ env.REPO_OWNER }}/fraud-detection-dashboard:latest
