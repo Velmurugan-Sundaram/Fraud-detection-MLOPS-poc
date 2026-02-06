@@ -32,21 +32,34 @@ jobs:
           if [ -f "dataset/creditcard.csv" ]; then
             echo "Dataset found locally: $(ls -lh dataset/creditcard.csv)"
           else
-            echo "Dataset not found locally, downloading from GitHub Releases..."
+            echo "Dataset not found locally, downloading chunks from GitHub Releases..."
             
-            # Download from GitHub Releases (free alternative to LFS)
-            # You need to upload creditcard.csv as a release asset first
-            # Create a release named "dataset" and upload creditcard.csv as an asset
-            DATASET_URL="https://github.com/${{ github.repository }}/releases/download/dataset/creditcard.csv"
+            # Download dataset chunks (split due to GitHub Releases 25MB limit)
+            CHUNK_COUNT=8
             
-            echo "Downloading dataset from: $DATASET_URL"
-            curl -L -o dataset/creditcard.csv "$DATASET_URL"
+            for i in $(seq -w 1 $CHUNK_COUNT); do
+              CHUNK_URL="https://github.com/${{ github.repository }}/releases/download/dataset/creditcard_part_${i}.csv"
+              CHUNK_FILE="dataset/creditcard_part_${i}.csv"
+              
+              echo "Downloading chunk ${i}/${CHUNK_COUNT}..."
+              curl -L -o "$CHUNK_FILE" "$CHUNK_URL"
+              
+              if [ $? -eq 0 ]; then
+                echo "  ✓ Chunk ${i} downloaded: $(ls -lh $CHUNK_FILE | awk '{print $5}')"
+              else
+                echo "  ✗ Failed to download chunk ${i}"
+                exit 1
+              fi
+            done
+            
+            # Merge chunks into single dataset file
+            echo "Merging dataset chunks..."
+            python simple_merge.py dataset "creditcard_part_*.csv" "creditcard.csv"
             
             if [ $? -eq 0 ]; then
-              echo "Dataset downloaded successfully: $(ls -lh dataset/creditcard.csv)"
+              echo "Dataset merged successfully: $(ls -lh dataset/creditcard.csv | awk '{print $5}')"
             else
-              echo "ERROR: Failed to download dataset"
-              echo "Please upload creditcard.csv as a release asset named 'dataset'"
+              echo "ERROR: Failed to merge dataset chunks"
               exit 1
             fi
           fi
