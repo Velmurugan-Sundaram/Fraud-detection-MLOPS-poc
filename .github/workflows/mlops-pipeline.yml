@@ -101,7 +101,6 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         context: .
-        target: fraud-detection-pipeline
         push: true
         tags: ghcr.io/${{ env.REPO_OWNER }}/fraud-detection-pipeline:latest
         
@@ -109,6 +108,5 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         context: .
-        target: dashboard
         push: true
         tags: ghcr.io/${{ env.REPO_OWNER }}/fraud-detection-dashboard:latest
