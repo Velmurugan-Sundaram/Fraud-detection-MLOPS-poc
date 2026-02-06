@@ -24,6 +24,19 @@ def load_data(file_path):
     """
     try:
         logging.info(f"Attempting to load data from {file_path}")
+        
+        # Check if file is a Git LFS pointer
+        if os.path.getsize(file_path) < 200:
+            with open(file_path, 'r') as f:
+                content = f.read()
+                if "version https://git-lfs.github.com/spec/v1" in content:
+                    error_msg = (
+                        f"Input file '{file_path}' appears to be a Git LFS pointer (size < 200 bytes). "
+                        "Please run 'git lfs pull' on your local machine and ensure the file is mounted correctly."
+                    )
+                    logging.error(error_msg)
+                    raise ValueError(error_msg)
+
         df = pd.read_csv(file_path)
         logging.info(f"Data loaded successfully. Shape: {df.shape}")
         return df
