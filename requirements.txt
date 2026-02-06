@@ -13,3 +13,8 @@ pyyaml
 psycopg2-binary
 evidently
 prometheus-fastapi-instrumentator
+streamlit
+requests
+pytest
+flake8
+httpx

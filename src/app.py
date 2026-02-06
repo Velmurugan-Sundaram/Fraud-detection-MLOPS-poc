@@ -5,14 +5,23 @@ import uvicorn
 from pydantic import BaseModel
 import logging
 import os
-
-# --- Setup ---
-# --- Setup ---
+import json
+from datetime import datetime
+from fastapi.middleware.cors import CORSMiddleware
 from prometheus_fastapi_instrumentator import Instrumentator
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, JSONResponse
 
 app = FastAPI(title="Fraud Detection API", version="1.0")
+
+# --- CORS ---
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allow all origins for development
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Instrument Prometheus
 Instrumentator().instrument(app).expose(app)
@@ -21,6 +30,7 @@ Instrumentator().instrument(app).expose(app)
 SCALER_PATH = "artifacts/scaler.pkl"
 MODEL_PATH = "artifacts/models/XGBoost.pkl"
 DRIFT_REPORT_PATH = "artifacts/drift_report.html"
+METRICS_PATH = "artifacts/models/metrics.json"
 
 # Load Artifacts
 logging.info("Loading artifacts...")
@@ -71,9 +81,39 @@ class Transaction(BaseModel):
     V28: float
     Amount: float
 
-@app.get("/")
-def home():
-    return {"message": "Fraud Detection API is running"}
+@app.get("/api/health")
+def health():
+    return {"status": "ok", "message": "Fraud Detection API is running"}
+
+@app.get("/api/metrics")
+def get_metrics():
+    if os.path.exists(METRICS_PATH):
+        with open(METRICS_PATH, 'r') as f:
+            return json.load(f)
+    return {"error": "Metrics not found"}
+
+@app.get("/api/pipeline/status")
+def get_pipeline_status():
+    status = {}
+    
+    # Check artifacts to determine status
+    artifacts = {
+        "Data Ingestion": "artifacts/raw.csv",
+        "Data Validation": "artifacts/raw.csv", # Assuming same for now or separate
+        "Feature Engineering": "artifacts/scaler.pkl",
+        "Data Splitting": "artifacts/train.csv",
+        "Model Training": "artifacts/models/metrics.json",
+        "Model Monitoring": "artifacts/drift_report.html"
+    }
+    
+    for step, path in artifacts.items():
+        if os.path.exists(path):
+            mod_time = datetime.fromtimestamp(os.path.getmtime(path)).isoformat()
+            status[step] = {"status": "completed", "last_updated": mod_time}
+        else:
+            status[step] = {"status": "pending", "last_updated": None}
+            
+    return status
 
 @app.get("/dashboard/drift", response_class=HTMLResponse)
 async def drift_dashboard():
@@ -123,6 +163,10 @@ def predict(transaction: Transaction):
     except Exception as e:
         logging.error(f"Prediction error: {e}")
         raise HTTPException(status_code=500, detail=str(e))
+
+# Mount Frontend - MUST BE LAST
+if os.path.exists("frontend/dist"):
+    app.mount("/", StaticFiles(directory="frontend/dist", html=True), name="frontend")
 
 if __name__ == "__main__":
     uvicorn.run("src.app:app", host="0.0.0.0", port=8000, reload=True)
