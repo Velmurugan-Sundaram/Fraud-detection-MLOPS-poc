@@ -1,5 +1,7 @@
 # Use official Python runtime as a parent image
 FROM python:3.12-slim
+# Install system dependencies
+RUN apt-get update && apt-get install -y libgomp1 && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory in the container
 WORKDIR /app
@@ -16,5 +18,5 @@ COPY . .
 # Make the running script executable
 RUN chmod +x run_pipeline.sh
 
-# Run the pipeline script when the container launches
-CMD ["./run_pipeline.sh"]
+# Run the FastAPI app
+CMD ["uvicorn", "src.app:app", "--host", "0.0.0.0", "--port", "8000"]

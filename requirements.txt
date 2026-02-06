@@ -12,3 +12,4 @@ uvicorn
 pyyaml
 psycopg2-binary
 evidently
+prometheus-fastapi-instrumentator

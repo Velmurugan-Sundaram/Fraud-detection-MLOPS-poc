@@ -7,11 +7,20 @@ import logging
 import os
 
 # --- Setup ---
+# --- Setup ---
+from prometheus_fastapi_instrumentator import Instrumentator
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import HTMLResponse
+
 app = FastAPI(title="Fraud Detection API", version="1.0")
+
+# Instrument Prometheus
+Instrumentator().instrument(app).expose(app)
 
 # Paths (Assuming local artifacts for this POC)
 SCALER_PATH = "artifacts/scaler.pkl"
 MODEL_PATH = "artifacts/models/XGBoost.pkl"
+DRIFT_REPORT_PATH = "artifacts/drift_report.html"
 
 # Load Artifacts
 logging.info("Loading artifacts...")
@@ -65,6 +74,13 @@ class Transaction(BaseModel):
 @app.get("/")
 def home():
     return {"message": "Fraud Detection API is running"}
+
+@app.get("/dashboard/drift", response_class=HTMLResponse)
+async def drift_dashboard():
+    if os.path.exists(DRIFT_REPORT_PATH):
+        with open(DRIFT_REPORT_PATH, "r") as f:
+            return f.read()
+    return HTMLResponse(content="<h1>Drift Report Not Found</h1><p>Run the pipeline to generate it.</p>", status_code=404)
 
 @app.post("/predict")
 def predict(transaction: Transaction):
