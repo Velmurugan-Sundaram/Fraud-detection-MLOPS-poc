@@ -63,19 +63,6 @@ jobs:
               exit 1
             fi
           fi
-            done
-            
-            # Merge chunks into single dataset file
-            echo "Merging dataset chunks..."
-            python simple_merge.py dataset "creditcard_part_*.csv" "creditcard.csv"
-            
-            if [ $? -eq 0 ]; then
-              echo "Dataset merged successfully: $(ls -lh dataset/creditcard.csv | awk '{print $5}')"
-            else
-              echo "ERROR: Failed to merge dataset chunks"
-              exit 1
-            fi
-          fi
       
       # Step 2: Set up Python environment
       - name: Set up Python ${{ env.PYTHON_VERSION }}
